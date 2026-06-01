@@ -142,6 +142,75 @@
         "focus": true,
         "panel": "new"
       }
+    },
+    {
+      "label": "🎯 Create 5 Temporary Sites (PowerShell)",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", ".\\create-5-sites.ps1"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
+    },
+    {
+      "label": "🎯 Create 5 Temporary Sites (Windows)",
+      "type": "shell",
+      "command": ".\\create-5-sites.bat",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
+    },
+    {
+      "label": "⚙️ Set Site Variables (PowerShell)",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", ".\\set-site-vars.ps1"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
+    },
+    {
+      "label": "⚙️ Set Site Variables (Windows)",
+      "type": "shell",
+      "command": ".\\set-site-vars.bat",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
+    },
+    {
+      "label": "🚀 Deploy 5 Sites (PowerShell)",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", ".\\deploy-5-sites.ps1"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
+    },
+    {
+      "label": "🚀 Deploy 5 Sites (Windows)",
+      "type": "shell",
+      "command": ".\\deploy-5-sites.bat",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
     }
   ]
 }
