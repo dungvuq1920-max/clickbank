@@ -66,7 +66,24 @@ After setup completes:
 
 ---
 
-## 📝 Daily Workflow Examples
+## 🌐 Domain Mapping (Step 2)
+
+After setup completes, add your domains to Railway:
+
+```
+Ctrl+Shift+B → Select "🌐 Add Domains to Railway (PowerShell)" or (Windows)
+```
+
+This will:
+1. Add all 5 domains to Railway
+2. Show you DNS configuration steps
+3. Provide testing commands
+
+See [DOMAIN_MAPPING.md](DOMAIN_MAPPING.md) for full details.
+
+---
+
+## 📱 Daily Workflow (From Now On)
 
 ### Example 1: Edit a blog post
 
@@ -209,19 +226,22 @@ railway variable list          # View environment variables
 ## 🎓 Next Steps
 
 1. ✅ **Complete setup**: Run the CI/CD setup script
-2. ✅ **Test a deployment**: Edit a file → Deploy → See it live
-3. ⏳ **Purchase domains**: When ready, buy the 5 domains above
-4. ⏳ **Add custom domains**: Map them to Railway (see [RAILWAY_SETUP.md](RAILWAY_SETUP.md))
-5. ⏳ **Configure Supabase** (optional): For database storage instead of local JSON
+2. ✅ **Add domains to Railway**: Run **🌐 Add Domains to Railway** task (Step 2 below)
+3. ✅ **Test a deployment**: Edit a file → Deploy → See it live
+4. ⏳ **Purchase domains**: When ready, buy the 5 domains above
+5. ⏳ **Configure DNS records** at your registrar: Follow [DOMAIN_MAPPING.md](DOMAIN_MAPPING.md)
+6. ⏳ **Track updates**: Use methods in [TRACK_UPDATES.md](TRACK_UPDATES.md)
 
 ---
 
 ## 🆘 Need Help?
 
 See the detailed guides:
-- [RAILWAY_SETUP.md](RAILWAY_SETUP.md) - Railway configuration
-- [.vscode/DEPLOYMENT_GUIDE.md](.vscode/DEPLOYMENT_GUIDE.md) - VS Code tasks
-- [DOMAINS.md](DOMAINS.md) - Domain information
+- [QUICK_START.md](QUICK_START.md) - This file (quick reference)
+- [RAILWAY_SETUP.md](RAILWAY_SETUP.md) - Railway configuration details
+- [DOMAIN_MAPPING.md](DOMAIN_MAPPING.md) - Map domains to Railway
+- [TRACK_UPDATES.md](TRACK_UPDATES.md) - Monitor content updates
+- [.vscode/DEPLOYMENT_GUIDE.md](.vscode/DEPLOYMENT_GUIDE.md) - VS Code tasks reference
 - [README.md](README.md) - Full project documentation
 
 ---
