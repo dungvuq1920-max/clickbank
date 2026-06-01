@@ -14,7 +14,7 @@
     "dev:love": "cross-env APP_MODE=site SITE_SLUG=love-psychology PORT=3015 next start -p 3015",
     "dev": "concurrently -n LEGACY,ADMIN,NEURO,MANIFEST,AI,METABOLIC,LOVE -c white,yellow,blue,magenta,green,cyan,red \"npm:dev:legacy\" \"npm:dev:admin\" \"npm:dev:neuro\" \"npm:dev:manifest\" \"npm:dev:ai\" \"npm:dev:metabolic\" \"npm:dev:love\"",
     "build": "next build",
-    "start": "next start -p 3010",
+    "start": "next start -p ${PORT:-3010}",
     "lint": "next lint",
     "test": "npm run build"
   },
