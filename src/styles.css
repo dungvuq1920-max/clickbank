@@ -1,0 +1,735 @@
+:root {
+  color: #17201d;
+  background: #fbfbf7;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.topbar {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(20, 26, 24, 0.09);
+  display: flex;
+  height: 68px;
+  justify-content: space-between;
+  left: 0;
+  padding: 0 clamp(18px, 4vw, 54px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.brand,
+.topbar nav,
+.topbar nav button,
+.heroActions,
+.primary,
+.secondary,
+.outputToolbar,
+.outputToolbar div,
+.outputToolbar button,
+.outputToolbar a {
+  align-items: center;
+  display: flex;
+}
+
+.brand {
+  background: transparent;
+  border: 0;
+  color: #10211d;
+  cursor: pointer;
+  font-weight: 800;
+  gap: 10px;
+  letter-spacing: 0;
+  min-width: 0;
+}
+
+.brandMark {
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  display: inline-block;
+  height: 22px;
+  width: 22px;
+}
+
+.topbar nav {
+  gap: 8px;
+}
+
+.topbar nav button {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #33413d;
+  cursor: pointer;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 13px;
+}
+
+.topbar nav button.active {
+  background: #14201d;
+  color: white;
+}
+
+.hero {
+  background-image: linear-gradient(90deg, rgba(6, 19, 17, 0.86) 0%, rgba(6, 19, 17, 0.68) 38%, rgba(6, 19, 17, 0.1) 76%), var(--hero-image);
+  background-position: center;
+  background-size: cover;
+  color: white;
+  min-height: calc(100vh - 68px);
+  position: relative;
+}
+
+.heroContent {
+  max-width: 760px;
+  padding: clamp(72px, 10vw, 130px) clamp(20px, 7vw, 92px) 88px;
+  position: relative;
+  z-index: 2;
+}
+
+.eyebrow {
+  color: var(--accent, #e85d75);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  margin: 0 0 16px;
+  text-transform: uppercase;
+}
+
+.hero h1,
+.panelIntro h1 {
+  font-size: clamp(2.4rem, 6vw, 5.9rem);
+  letter-spacing: 0;
+  line-height: 0.95;
+  margin: 0;
+  max-width: 920px;
+}
+
+.hero p:not(.eyebrow),
+.panelIntro p {
+  color: rgba(255, 255, 255, 0.86);
+  font-size: clamp(1.02rem, 2vw, 1.28rem);
+  line-height: 1.65;
+  max-width: 680px;
+}
+
+.heroActions {
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.primary,
+.secondary {
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 850;
+  gap: 9px;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 18px;
+  text-decoration: none;
+}
+
+.primary {
+  background: var(--accent, #e85d75);
+  border: 1px solid transparent;
+  color: white;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.2);
+}
+
+.secondary {
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  color: white;
+}
+
+.secondary.dark {
+  background: #172431;
+  border-color: #172431;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.wide {
+  width: 100%;
+}
+
+.band,
+.strategy,
+.conversionBand,
+.panelShell {
+  padding: clamp(48px, 7vw, 88px) clamp(18px, 5vw, 72px);
+}
+
+.band {
+  background: #fbfbf7;
+}
+
+.sectionHead {
+  max-width: 760px;
+}
+
+.sectionHead h2,
+.conversionBand h2,
+.emptyState h2 {
+  color: #13201c;
+  font-size: clamp(1.75rem, 3.4vw, 3.2rem);
+  letter-spacing: 0;
+  line-height: 1.07;
+  margin: 0 0 26px;
+}
+
+.offerGrid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 28px;
+}
+
+.postGrid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-top: 28px;
+}
+
+.nicheStrip {
+  background: #13201c;
+  border-radius: 8px;
+  color: white;
+  display: grid;
+  gap: 1px;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 24px;
+  overflow: hidden;
+}
+
+.nicheStrip div {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 20px;
+}
+
+.nicheStrip span {
+  color: var(--accent, #e85d75);
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 900;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.nicheStrip p {
+  font-size: 1.06rem;
+  font-weight: 750;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.offerCard {
+  background: white;
+  border: 1px solid rgba(19, 32, 28, 0.11);
+  border-radius: 8px;
+  min-height: 220px;
+  padding: 26px;
+}
+
+.offerCard svg {
+  color: var(--accent, #e85d75);
+}
+
+.offerCard h3,
+.strategyRow h3 {
+  font-size: 1.2rem;
+  margin: 18px 0 10px;
+}
+
+.offerCard p,
+.strategyRow p {
+  color: #53605c;
+  line-height: 1.65;
+}
+
+.postCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.postCard .primary {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.strategy {
+  background: #edf2ec;
+}
+
+.strategyRow {
+  align-items: start;
+  border-top: 1px solid rgba(20, 32, 29, 0.15);
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 58px minmax(180px, 0.7fr) minmax(240px, 1.3fr);
+  padding: 26px 0;
+}
+
+.strategyRow span {
+  color: var(--accent, #e85d75);
+  font-weight: 900;
+}
+
+.strategyRow h3,
+.strategyRow p {
+  margin: 0;
+}
+
+.conversionBand {
+  align-items: center;
+  background: #13201c;
+  color: white;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+}
+
+.conversionBand h2 {
+  color: white;
+  margin-bottom: 0;
+}
+
+.panelShell {
+  background: linear-gradient(180deg, #f8fbf7 0%, #ffffff 42%);
+  min-height: calc(100vh - 68px);
+}
+
+.panelIntro {
+  background: #14201d;
+  border-radius: 8px;
+  color: white;
+  margin-bottom: 22px;
+  padding: clamp(26px, 5vw, 54px);
+}
+
+.panelIntro h1 {
+  font-size: clamp(2rem, 4.8vw, 4.4rem);
+}
+
+.panelGrid {
+  align-items: start;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: minmax(300px, 430px) minmax(0, 1fr);
+}
+
+.controlPanel,
+.outputPanel {
+  background: white;
+  border: 1px solid rgba(19, 32, 28, 0.12);
+  border-radius: 8px;
+}
+
+.controlPanel {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  position: sticky;
+  top: 86px;
+}
+
+.panelActions {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.destinationBox {
+  background: #eef5ff;
+  border: 1px solid rgba(47, 156, 255, 0.22);
+  border-radius: 8px;
+  display: grid;
+  gap: 5px;
+  padding: 13px;
+}
+
+.destinationBox span {
+  color: #52615c;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.destinationBox strong {
+  color: #14201d;
+  font-size: 1rem;
+}
+
+.destinationBox a {
+  color: var(--accent, #2f9cff);
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.controlPanel label {
+  color: #24312d;
+  display: grid;
+  font-size: 0.9rem;
+  font-weight: 800;
+  gap: 8px;
+}
+
+.controlPanel label span {
+  align-items: center;
+  display: inline-flex;
+  gap: 7px;
+}
+
+.controlPanel input,
+.controlPanel textarea,
+.controlPanel select {
+  background: #f7f9f6;
+  border: 1px solid rgba(19, 32, 28, 0.18);
+  border-radius: 8px;
+  color: #18241f;
+  min-height: 44px;
+  padding: 10px 12px;
+  width: 100%;
+}
+
+.controlPanel textarea {
+  line-height: 1.45;
+  resize: vertical;
+}
+
+.status,
+.error {
+  border-radius: 8px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  margin: 0;
+  padding: 11px 12px;
+}
+
+.status {
+  background: #eef8ed;
+  color: #285d2c;
+}
+
+.error {
+  background: #fff0ed;
+  color: #9d2f1d;
+}
+
+.outputPanel {
+  min-height: 720px;
+  overflow: hidden;
+}
+
+.outputToolbar {
+  background: #f6f7f4;
+  border-bottom: 1px solid rgba(19, 32, 28, 0.1);
+  justify-content: space-between;
+  min-height: 58px;
+  padding: 10px 14px;
+}
+
+.outputToolbar span,
+.outputToolbar button,
+.outputToolbar a {
+  color: #34413d;
+  gap: 7px;
+}
+
+.outputToolbar div {
+  gap: 8px;
+}
+
+.outputToolbar button,
+.outputToolbar a {
+  background: white;
+  border: 1px solid rgba(19, 32, 28, 0.14);
+  border-radius: 8px;
+  cursor: pointer;
+  min-height: 36px;
+  padding: 0 11px;
+  text-decoration: none;
+}
+
+.outputToolbar button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.backButton {
+  background: #14201d;
+  border: 0;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: 850;
+  margin-bottom: 16px;
+  min-height: 42px;
+  padding: 0 14px;
+}
+
+.articlePage {
+  margin: 0 auto;
+  max-width: 980px;
+}
+
+.tableSection {
+  padding-top: clamp(28px, 5vw, 56px);
+}
+
+.linkTableWrap {
+  background: white;
+  border: 1px solid rgba(19, 32, 28, 0.12);
+  border-radius: 8px;
+  margin-top: 18px;
+  overflow-x: auto;
+}
+
+.linkTable {
+  border-collapse: collapse;
+  min-width: 980px;
+  width: 100%;
+}
+
+.linkTable th,
+.linkTable td {
+  border-bottom: 1px solid rgba(19, 32, 28, 0.1);
+  color: #263530;
+  padding: 13px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.linkTable th {
+  background: #f6f7f4;
+  color: #14201d;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+}
+
+.linkTable a {
+  color: var(--accent, #e85d75);
+  font-weight: 800;
+}
+
+.pill {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 900;
+  padding: 5px 9px;
+  text-transform: uppercase;
+}
+
+.pill.draft {
+  background: #fff6d7;
+  color: #7a5500;
+}
+
+.pill.published {
+  background: #e5f8ee;
+  color: #16633d;
+}
+
+.rowActions {
+  display: flex;
+  gap: 8px;
+}
+
+.rowActions button {
+  align-items: center;
+  background: #f7f9f6;
+  border: 1px solid rgba(19, 32, 28, 0.14);
+  border-radius: 8px;
+  color: #263530;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 10px;
+}
+
+.emptyState {
+  align-items: center;
+  color: #53605c;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 600px;
+  padding: 26px;
+  text-align: center;
+}
+
+.emptyState svg {
+  color: var(--accent, #e85d75);
+}
+
+.emptyState h2 {
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  margin: 18px 0 8px;
+}
+
+.reviewPreview {
+  color: #22302b;
+  line-height: 1.75;
+  margin: 0 auto;
+  max-width: 880px;
+  padding: clamp(20px, 4vw, 46px);
+}
+
+.reviewPreview h1 {
+  color: #12201c;
+  font-size: clamp(2rem, 4.2vw, 3.8rem);
+  letter-spacing: 0;
+  line-height: 1.03;
+}
+
+.reviewPreview h2 {
+  color: #15251f;
+  font-size: 1.55rem;
+  margin-top: 34px;
+}
+
+.reviewPreview img {
+  aspect-ratio: 5 / 3;
+  border-radius: 8px;
+  display: block;
+  margin: 24px 0;
+  object-fit: cover;
+  width: 100%;
+}
+
+.reviewPreview a {
+  color: white;
+  background: var(--accent, #e85d75);
+  border-radius: 8px;
+  display: inline-flex;
+  font-weight: 850;
+  margin: 6px 0;
+  padding: 11px 15px;
+  text-decoration: none;
+}
+
+.reviewPreview table {
+  border-collapse: collapse;
+  margin: 18px 0;
+  width: 100%;
+}
+
+.reviewPreview th,
+.reviewPreview td {
+  border: 1px solid rgba(19, 32, 28, 0.16);
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.reviewPreview th {
+  background: #f2f5f0;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    min-height: 760px;
+  }
+
+  .heroContent {
+    padding-top: 82px;
+  }
+
+  .offerGrid,
+  .postGrid,
+  .nicheStrip,
+  .panelGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .controlPanel {
+    position: static;
+  }
+
+  .strategyRow {
+    grid-template-columns: 1fr;
+  }
+
+  .conversionBand {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 620px) {
+  .topbar {
+    height: auto;
+    min-height: 66px;
+    padding: 10px 14px;
+  }
+
+  .brand span:last-child {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .topbar nav button {
+    padding: 0 10px;
+  }
+
+  .hero h1,
+  .panelIntro h1 {
+    font-size: 2.35rem;
+  }
+
+  .heroActions,
+  .primary,
+  .secondary,
+  .panelActions {
+    width: 100%;
+  }
+
+  .panelActions {
+    grid-template-columns: 1fr;
+  }
+
+  .outputToolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .outputToolbar div,
+  .outputToolbar button,
+  .outputToolbar a {
+    width: 100%;
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "style": "default",
+  "tsx": true,
+  "tailwind": {
+    "css": "app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  }
+}

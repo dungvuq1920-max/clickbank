@@ -1,0 +1,70 @@
+
+> clickbank-ai-publishing-system@2.0.0 dev
+> concurrently -n LEGACY,ADMIN,NEURO,MANIFEST,AI,METABOLIC,LOVE -c white,yellow,blue,magenta,green,cyan,red "npm:dev:legacy" "npm:dev:admin" "npm:dev:neuro" "npm:dev:manifest" "npm:dev:ai" "npm:dev:metabolic" "npm:dev:love"
+
+[LEGACY] 
+[LEGACY] > clickbank-ai-publishing-system@2.0.0 dev:legacy
+[LEGACY] > cross-env PORT=3001 node server.js
+[LEGACY] 
+[ADMIN] 
+[ADMIN] > clickbank-ai-publishing-system@2.0.0 dev:admin
+[ADMIN] > cross-env APP_MODE=admin PORT=3010 next start -p 3010
+[ADMIN] 
+[MANIFEST] 
+[MANIFEST] > clickbank-ai-publishing-system@2.0.0 dev:manifest
+[MANIFEST] > cross-env APP_MODE=site SITE_SLUG=manifest-signal PORT=3012 next start -p 3012
+[MANIFEST] 
+[NEURO] 
+[NEURO] > clickbank-ai-publishing-system@2.0.0 dev:neuro
+[NEURO] > cross-env APP_MODE=site SITE_SLUG=neuro-sleep PORT=3011 next start -p 3011
+[NEURO] 
+[METABOLIC] 
+[METABOLIC] > clickbank-ai-publishing-system@2.0.0 dev:metabolic
+[METABOLIC] > cross-env APP_MODE=site SITE_SLUG=metabolic-reset PORT=3014 next start -p 3014
+[METABOLIC] 
+[AI] 
+[AI] > clickbank-ai-publishing-system@2.0.0 dev:ai
+[AI] > cross-env APP_MODE=site SITE_SLUG=ai-hustle PORT=3013 next start -p 3013
+[AI] 
+[LOVE] 
+[LOVE] > clickbank-ai-publishing-system@2.0.0 dev:love
+[LOVE] > cross-env APP_MODE=site SITE_SLUG=love-psychology PORT=3015 next start -p 3015
+[LOVE] 
+[MANIFEST]    ▲ Next.js 15.5.18
+[MANIFEST]    - Local:        http://localhost:3012
+[MANIFEST]    - Network:      http://192.168.1.56:3012
+[MANIFEST] 
+[MANIFEST]  ✓ Starting...
+[ADMIN]    ▲ Next.js 15.5.18
+[ADMIN]    - Local:        http://localhost:3010
+[ADMIN]    - Network:      http://192.168.1.56:3010
+[ADMIN] 
+[ADMIN]  ✓ Starting...
+[METABOLIC]    ▲ Next.js 15.5.18
+[METABOLIC]    - Local:        http://localhost:3014
+[METABOLIC]    - Network:      http://192.168.1.56:3014
+[METABOLIC] 
+[METABOLIC]  ✓ Starting...
+[NEURO]    ▲ Next.js 15.5.18
+[NEURO]    - Local:        http://localhost:3011
+[NEURO]    - Network:      http://192.168.1.56:3011
+[NEURO] 
+[NEURO]  ✓ Starting...
+[LOVE]    ▲ Next.js 15.5.18
+[LOVE]    - Local:        http://localhost:3015
+[LOVE]    - Network:      http://192.168.1.56:3015
+[LOVE] 
+[LOVE]  ✓ Starting...
+[AI]    ▲ Next.js 15.5.18
+[AI]    - Local:        http://localhost:3013
+[AI]    - Network:      http://192.168.1.56:3013
+[AI] 
+[AI]  ✓ Starting...
+[LEGACY] [2m10:44:00 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m Re-optimizing dependencies because lockfile has changed
+[LEGACY] mind site running at http://localhost:3001
+[ADMIN]  ✓ Ready in 1410ms
+[NEURO]  ✓ Ready in 1365ms
+[MANIFEST]  ✓ Ready in 1406ms
+[METABOLIC]  ✓ Ready in 1388ms
+[AI]  ✓ Ready in 1391ms
+[LOVE]  ✓ Ready in 1373ms

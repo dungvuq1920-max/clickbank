@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Fresh metabolism and weight loss editorial hero">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7fff5"/>
+      <stop offset="0.55" stop-color="#dff8df"/>
+      <stop offset="1" stop-color="#ffb36f"/>
+    </linearGradient>
+    <linearGradient id="shadow" x1="0" x2="1">
+      <stop offset="0" stop-color="#174431" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#174431" stop-opacity=".25"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="780" height="900" fill="url(#shadow)"/>
+  <circle cx="1210" cy="330" r="210" fill="#93e6aa" opacity=".72"/>
+  <circle cx="1370" cy="560" r="170" fill="#ff8a3d" opacity=".62"/>
+  <rect x="900" y="250" width="430" height="300" rx="26" fill="#fff" opacity=".92"/>
+  <rect x="945" y="300" width="150" height="24" rx="12" fill="#174431" opacity=".24"/>
+  <rect x="945" y="350" width="315" height="18" rx="9" fill="#93e6aa"/>
+  <rect x="945" y="390" width="280" height="18" rx="9" fill="#ff8a3d" opacity=".8"/>
+  <circle cx="1030" cy="595" r="78" fill="#ff8a3d"/>
+  <path d="M1180 645c105-170 265-155 295-60-93 9-181 49-295 60Z" fill="#174431"/>
+  <path d="M1128 674c-18-142 70-251 167-242-32 93-78 172-167 242Z" fill="#5fba75"/>
+</svg>
