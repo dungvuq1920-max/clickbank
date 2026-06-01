@@ -11,7 +11,7 @@ export default function SettingsPage() {
           ['Site Settings', 'Branding, colors, domains, compliance rules, and lead magnets are stored in lib/sites.ts.'],
           ['Affiliate Links', 'Generated products save product_url and affiliate_url, with CTA blocks capped at 5 placements.'],
           ['Supabase', 'Run supabase/schema.sql, then add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.'],
-          ['Deployment', 'Deploy on Vercel. Use production domains to map each site slug or standalone site instance.'],
+          ['Deployment', 'Deploy each website as its own Railway service with APP_MODE=site, its SITE_SLUG, and a persistent /app/data volume.'],
         ].map(([title, text]) => (
           <Card key={title}>
             <h2 className="text-xl font-black">{title}</h2>

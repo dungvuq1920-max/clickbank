@@ -1,79 +1,74 @@
 # 5-Site Affiliate AI Publishing System
 
-Production-oriented Next.js system for one shared admin panel and five affiliate niche sites.
+Next.js system for five independent affiliate niche websites. Each production
+website runs as its own Railway service with its own domain, scoped admin panel,
+and persistent `/app/data` volume.
 
-## Local URLs
+## Websites
 
-- Legacy Vite app: `http://localhost:3001`
-- Admin: `http://localhost:3010/admin`
-- NeuroRestLab.com: `http://localhost:3011` and `/sites/neuro-sleep`
-- InnerAlignmentLab.com: `http://localhost:3012` and `/sites/manifest-signal`
-- DigitalOperatorAI.com: `http://localhost:3013` and `/sites/ai-hustle`
-- healthyresetlab.com: `http://localhost:3014` and `/sites/metabolic-reset`
-- connectiondecoded.com: `http://localhost:3015` and `/sites/love-psychology`
+| Website | Site slug | Railway service |
+| --- | --- | --- |
+| NeuroRestLab | `neuro-sleep` | `neuro-sleep-site` |
+| InnerAlignmentLab | `manifest-signal` | `manifest-signal-site` |
+| DigitalOperatorAI | `ai-hustle` | `ai-hustle-site` |
+| HealthyResetLab | `metabolic-reset` | `metabolic-reset-site` |
+| ConnectionDecoded | `love-psychology` | `love-psychology-site` |
 
-## Run
+The generated Railway domains are listed in [TEMP_DOMAINS.md](TEMP_DOMAINS.md).
 
-```bash
+## Local Development
+
+```powershell
 npm install
 npm run dev
 ```
 
+The local admin is available at `http://localhost:3010/admin`. Local site URLs
+are documented in [SITES_TREE.md](SITES_TREE.md).
+
+## Production Flow
+
+```powershell
+npm run lint
+npm run build
+git push origin master
+.\verify-5-sites.ps1
+```
+
+A push to `master` runs GitHub Actions. The workflow deploys all five Railway
+services, waits for Railway to report `SUCCESS`, and verifies each homepage.
+
+See [RAILWAY_SETUP.md](RAILWAY_SETUP.md) for token setup and
+[QUICK_START.md](QUICK_START.md) for the daily workflow.
+
 ## Environment
 
-Copy `.env.example` to `.env.local` and set:
+Each production service requires:
 
-```bash
+```text
+APP_MODE=site
+SITE_SLUG=<matching-site-slug>
+ADMIN_PASSWORD=<strong-password>
+```
+
+Optional AI article generation requires:
+
+```text
 AI_BASE_URL=https://api.shopaikey.com/v1
-AI_MODEL=gpt-4o
-AI_API_KEY=your_key_here
+AI_MODEL=<compatible-model>
+AI_API_KEY=<server-side-api-key>
 ```
 
-The AI key is used only in server-side API route `/api/generate-article`.
+If Supabase variables are missing, the application stores content in
+`data/local-db.json`. Railway mounts `/app/data` as a persistent volume for each
+production service so fallback content survives redeploys.
 
-## Supabase
-
-1. Create a Supabase project.
-2. Run `supabase/schema.sql` in the SQL editor.
-3. Add these env vars:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-
-If Supabase env vars are missing, the app uses local fallback storage at `data/local-db.json` so you can test the workflow immediately.
-
-## Admin Workflow
-
-1. Open `/admin/dashboard`.
-2. Select one of the five websites.
-3. Enter Product URL and Affiliate URL.
-4. Choose content type, target keyword, article length, and tone.
-5. Click Generate Article.
-6. Review tabs: Preview, Markdown, HTML, SEO, Images, Schema, Social Posts.
-7. Save Draft, Publish Now, or Schedule Tomorrow.
-
-Published posts appear only on the selected website at:
-
-```txt
-/sites/[site-slug]/review/[article-slug]
-```
-
-## Vercel Deployment
-
-1. Push the repo to GitHub.
-2. Import into Vercel.
-3. Add env vars from `.env.example`.
-4. Deploy.
-5. Map production domains to the site routes or deploy separate Vercel projects with `SITE_SLUG`.
-
-## Current Architecture
+## Architecture
 
 - Next.js App Router
-- TypeScript
-- Tailwind CSS
-- Supabase-ready data layer
-- Local JSON fallback for development
-- OpenAI-compatible AI API integration
-- Markdown/HTML content support
-- SEO metadata and schema JSON output
-- Five branded affiliate site templates
+- TypeScript and Tailwind CSS
+- Five branded affiliate templates
+- Separate Basic Auth protected admin panel per Railway domain
+- Supabase-ready data layer with persistent JSON fallback
+- OpenAI-compatible server-side article generation route
+- SEO metadata, schema JSON output, funnel pages, and subscriber opt-in API

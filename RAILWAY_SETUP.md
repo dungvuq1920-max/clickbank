@@ -16,8 +16,11 @@ multiple services in one Railway project.
 
 Railway CLI authentication variables:
 
-- `RAILWAY_TOKEN`: project-scoped token.
 - `RAILWAY_API_TOKEN`: account/workspace-scoped token.
+- `RAILWAY_TOKEN`: project-scoped token for a single service or project.
+
+This repository uses `RAILWAY_API_TOKEN` in GitHub Actions because one workflow
+deploys five services.
 
 Do not run `railway login --token`; that flag is not supported by the current
 Railway CLI.

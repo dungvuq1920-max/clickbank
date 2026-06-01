@@ -2,213 +2,83 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "1️⃣ Dev - Run All Sites",
+      "label": "Dev - Run All Sites",
       "type": "shell",
       "command": "npm",
       "args": ["run", "dev"],
       "isBackground": true,
-      "problemMatcher": {
-        "pattern": {
-          "regexp": "^.*$",
-          "file": 1,
-          "location": 2,
-          "message": 3
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": "^ready",
-          "endsPattern": "^compiled.*ok"
-        }
-      },
       "presentation": {
-        "echo": true,
         "reveal": "always",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": true,
-        "clear": false
+        "panel": "shared"
       }
     },
     {
-      "label": "2️⃣ Commit & Push to GitHub",
+      "label": "Verify - Lint and Build",
       "type": "shell",
-      "command": "git",
+      "command": "powershell",
       "args": [
-        "add",
-        ".",
-        "&&",
-        "git",
-        "commit",
-        "-m",
-        "Update content from VS Code"
+        "-NoProfile",
+        "-Command",
+        "npm run lint; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; npm run build"
       ],
+      "group": "build",
       "presentation": {
-        "echo": true,
         "reveal": "always",
-        "focus": true,
         "panel": "new"
-      },
-      "group": "build"
+      }
     },
     {
-      "label": "3️⃣ Deploy to Railway (GitHub Actions)",
+      "label": "Deploy - Push to GitHub",
       "type": "shell",
       "command": "git",
       "args": ["push", "origin", "master"],
       "presentation": {
-        "echo": true,
         "reveal": "always",
-        "focus": true,
         "panel": "new"
-      },
-      "group": "build"
+      }
     },
     {
-      "label": "🚀 Full Deploy: Commit → Push → Railway",
+      "label": "Verify - Production Sites",
       "type": "shell",
-      "command": "git",
+      "command": "powershell",
       "args": [
-        "add",
-        ".",
-        "&&",
-        "git",
-        "commit",
-        "-m",
-        "Deploy from VS Code"
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        ".\\verify-5-sites.ps1"
       ],
-      "dependsOn": ["2️⃣ Commit & Push to GitHub"],
       "presentation": {
-        "echo": true,
         "reveal": "always",
-        "focus": true,
-        "panel": "new"
-      },
-      "group": "build"
-    },
-    {
-      "label": "🔍 Check Railway Logs",
-      "type": "shell",
-      "command": "npx",
-      "args": ["@railway/cli", "logs", "--service", "clickbank", "--lines", "50"],
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
         "panel": "new"
       }
     },
     {
-      "label": "✨ Setup CI/CD (Windows)",
-      "type": "shell",
-      "command": ".\\setup-cicd.bat",
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "new"
-      }
-    },
-    {
-      "label": "✨ Setup CI/CD (PowerShell)",
+      "label": "Setup - GitHub Railway Token",
       "type": "shell",
       "command": "powershell",
-      "args": ["-ExecutionPolicy", "Bypass", "-File", ".\\setup-cicd.ps1"],
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        ".\\setup-cicd.ps1"
+      ],
       "presentation": {
-        "echo": true,
         "reveal": "always",
-        "focus": true,
         "panel": "new"
       }
     },
     {
-      "label": "🌐 Add Domains to Railway (PowerShell)",
+      "label": "Railway - Deploy 5 Sites Manually",
       "type": "shell",
       "command": "powershell",
-      "args": ["-ExecutionPolicy", "Bypass", "-File", ".\\add-domains.ps1"],
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        ".\\deploy-5-sites.ps1"
+      ],
       "presentation": {
-        "echo": true,
         "reveal": "always",
-        "focus": true,
-        "panel": "new"
-      }
-    },
-    {
-      "label": "🌐 Add Domains to Railway (Windows)",
-      "type": "shell",
-      "command": ".\\add-domains.bat",
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "new"
-      }
-    },
-    {
-      "label": "🎯 Create 5 Temporary Sites (PowerShell)",
-      "type": "shell",
-      "command": "powershell",
-      "args": ["-ExecutionPolicy", "Bypass", "-File", ".\\create-5-sites.ps1"],
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "new"
-      }
-    },
-    {
-      "label": "🎯 Create 5 Temporary Sites (Windows)",
-      "type": "shell",
-      "command": ".\\create-5-sites.bat",
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "new"
-      }
-    },
-    {
-      "label": "⚙️ Set Site Variables (PowerShell)",
-      "type": "shell",
-      "command": "powershell",
-      "args": ["-ExecutionPolicy", "Bypass", "-File", ".\\set-site-vars.ps1"],
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "new"
-      }
-    },
-    {
-      "label": "⚙️ Set Site Variables (Windows)",
-      "type": "shell",
-      "command": ".\\set-site-vars.bat",
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "new"
-      }
-    },
-    {
-      "label": "🚀 Deploy 5 Sites (PowerShell)",
-      "type": "shell",
-      "command": "powershell",
-      "args": ["-ExecutionPolicy", "Bypass", "-File", ".\\deploy-5-sites.ps1"],
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "new"
-      }
-    },
-    {
-      "label": "🚀 Deploy 5 Sites (Windows)",
-      "type": "shell",
-      "command": ".\\deploy-5-sites.bat",
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
         "panel": "new"
       }
     }
