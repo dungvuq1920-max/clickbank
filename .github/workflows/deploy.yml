@@ -37,17 +37,15 @@ jobs:
         env:
           RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
         run: |
-          railway link --project a9895cce-1c0f-4055-9e39-1f381cf37051 --environment production --service ${{ matrix.service }} --json
           sleep 5
           for attempt in $(seq 1 30); do
-            STATUS=$(railway deployment list --service ${{ matrix.service }} --environment production --limit 1 --json | jq -r '.[0].status')
+            STATUS=$(railway service status --project a9895cce-1c0f-4055-9e39-1f381cf37051 --service ${{ matrix.service }} --environment production --json | jq -r '.status')
             echo "Attempt $attempt: $STATUS"
             if [ "$STATUS" = "SUCCESS" ]; then
               curl --fail --location --silent --show-error --output /dev/null --max-time 20 "${{ matrix.url }}/"
               exit 0
             fi
             if [ "$STATUS" = "FAILED" ] || [ "$STATUS" = "CRASHED" ]; then
-              railway logs --service ${{ matrix.service }} --lines 100
               exit 1
             fi
             sleep 10
