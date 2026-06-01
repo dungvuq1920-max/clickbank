@@ -62,6 +62,8 @@ ${structure.map((item, index) => `${index + 1}. ${item}`).join('\n')}
 
 Copywriting requirements:
 - Write 3,000-5,000 words in native US English with a human editorial voice.
+- Put the complete 3,000-5,000 word article inside "content_html" as publication-ready HTML. Do not return a placeholder, summary, outline, note, or abbreviated version.
+- Put the complete article text inside "content_markdown" as well. Every required section must be fully written.
 - Use PAS in the introduction and AIDA naturally throughout the article.
 - Build EEAT with careful research language, transparent uncertainty, balanced pros and cons, and practical buyer guidance.
 - Include urgency or scarcity only when supported by extracted sales-page text. Never fabricate limited-time claims, countdowns, stock levels, or expiring bonuses.
@@ -130,5 +132,12 @@ Return valid JSON in exactly this shape:
     "featured_snippet": ""
   }
 }
+
+Final validation before responding:
+- Confirm "content_html" contains the complete article, not a placeholder.
+- Confirm "content_html" is 3,000-5,000 words.
+- Confirm there are 6-12 CTA sections and each one uses exactly ${input.affiliate_url}.
+- Confirm "faq" contains 10 question-and-answer objects.
+- Confirm "seo_pack.title_variants" has 10 items, "seo_pack.meta_descriptions" has 10 items, and "seo_pack.long_tail_keywords" has 20 items.
 `;
 }

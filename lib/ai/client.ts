@@ -133,7 +133,9 @@ function assertArticleQuality(article: GeneratedArticle, input: GenerateArticleI
   if (article.seo_pack.long_tail_keywords.length < 20) errors.push('SEO pack must contain 20 long-tail keywords');
   const hoplinkOccurrences = article.content_html.split(input.affiliate_url).length - 1;
   if (hoplinkOccurrences < article.cta_blocks.length) errors.push('article HTML must include the submitted hoplink in every CTA section');
-  if (errors.length) throw new Error(`AI draft did not pass the publishing quality gate: ${errors.join('; ')}. Generate again.`);
+  if (errors.length) {
+    throw new Error(`AI draft did not pass the publishing quality gate: ${errors.join('; ')}. The model returned an incomplete draft. Generate again.`);
+  }
 }
 
 export async function generateArticle(input: GenerateArticleInput): Promise<GeneratedArticle> {
@@ -146,38 +148,45 @@ export async function generateArticle(input: GenerateArticleInput): Promise<Gene
     throw new Error('Connect and save a valid ShopAIKey API key before generating an article.');
   }
 
-  const response = await fetch(`${baseUrl}/chat/completions`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      model,
-      temperature: 0.7,
-      response_format: { type: 'json_object' },
-      messages: [
-        {
-          role: 'system',
-          content: 'Return publication-ready affiliate review content as valid JSON only.',
-        },
-        {
-          role: 'user',
-          content: buildArticlePrompt(input),
-        },
-      ],
-    }),
-  });
-
-  const payload = await response.json();
-  if (!response.ok) {
-    throw new Error(payload?.error?.message || payload?.message || 'AI API request failed.');
+  async function requestArticle(repairNote?: string) {
+    const response = await fetch(`${baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        model,
+        temperature: 0.7,
+        max_tokens: 16000,
+        response_format: { type: 'json_object' },
+        messages: [
+          {
+            role: 'system',
+            content: 'Return publication-ready affiliate review content as valid JSON only. Never return placeholders or abbreviated sections.',
+          },
+          {
+            role: 'user',
+            content: `${buildArticlePrompt(input)}${repairNote ? `\nPrevious attempt failed validation: ${repairNote}\nRegenerate the complete JSON article from scratch and fix every validation issue.` : ''}`,
+          },
+        ],
+      }),
+    });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload?.error?.message || payload?.message || 'AI API request failed.');
+    const content = payload.choices?.[0]?.message?.content;
+    if (!content) throw new Error('AI returned an empty response.');
+    return generatedArticleSchema.parse(normalizeArticlePayload(parseJson(content), input.affiliate_url));
   }
 
-  const content = payload.choices?.[0]?.message?.content;
-  if (!content) throw new Error('AI returned an empty response.');
-  const article = generatedArticleSchema.parse(normalizeArticlePayload(parseJson(content), input.affiliate_url));
-  assertArticleQuality(article, input);
-  return article;
+  const firstArticle = await requestArticle();
+  try {
+    assertArticleQuality(firstArticle, input);
+    return firstArticle;
+  } catch (error) {
+    const repairedArticle = await requestArticle(error instanceof Error ? error.message : 'Incomplete draft.');
+    assertArticleQuality(repairedArticle, input);
+    return repairedArticle;
+  }
 }
