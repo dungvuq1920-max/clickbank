@@ -5,6 +5,7 @@ dist/
 .env.local
 .DS_Store
 coverage/
-.vscode/
+.vscode/extensions/
+.vscode/settings.json
 SITES_TREE.png
 SITES_TREE.mmd

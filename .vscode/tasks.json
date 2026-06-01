@@ -1,0 +1,124 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "1️⃣ Dev - Run All Sites",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "dev"],
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^.*$",
+          "file": 1,
+          "location": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^ready",
+          "endsPattern": "^compiled.*ok"
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "2️⃣ Commit & Push to GitHub",
+      "type": "shell",
+      "command": "git",
+      "args": [
+        "add",
+        ".",
+        "&&",
+        "git",
+        "commit",
+        "-m",
+        "Update content from VS Code"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      },
+      "group": "build"
+    },
+    {
+      "label": "3️⃣ Deploy to Railway (GitHub Actions)",
+      "type": "shell",
+      "command": "git",
+      "args": ["push", "origin", "master"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      },
+      "group": "build"
+    },
+    {
+      "label": "🚀 Full Deploy: Commit → Push → Railway",
+      "type": "shell",
+      "command": "git",
+      "args": [
+        "add",
+        ".",
+        "&&",
+        "git",
+        "commit",
+        "-m",
+        "Deploy from VS Code"
+      ],
+      "dependsOn": ["2️⃣ Commit & Push to GitHub"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      },
+      "group": "build"
+    },
+    {
+      "label": "🔍 Check Railway Logs",
+      "type": "shell",
+      "command": "npx",
+      "args": ["@railway/cli", "logs", "--service", "clickbank", "--lines", "50"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
+    },
+    {
+      "label": "✨ Setup CI/CD (Windows)",
+      "type": "shell",
+      "command": ".\\setup-cicd.bat",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
+    },
+    {
+      "label": "✨ Setup CI/CD (PowerShell)",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", ".\\setup-cicd.ps1"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
+    }
+  ]
+}
