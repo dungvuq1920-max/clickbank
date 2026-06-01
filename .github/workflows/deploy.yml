@@ -25,5 +25,5 @@ jobs:
 
       - name: Deploy site service
         env:
-          RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
         run: railway up --project a9895cce-1c0f-4055-9e39-1f381cf37051 --environment production --service ${{ matrix.service }} --detach
