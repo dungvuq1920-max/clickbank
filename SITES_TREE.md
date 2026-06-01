@@ -106,18 +106,24 @@ Plain tree:
   - Sites
     - NeuroRestLab (neuro-sleep) — Brain / Focus / Sleep — NeuroRestLab.com
       - pages: home, about, blog, reviews, review article, category, contact, privacy-policy, terms, affiliate-disclosure, legal-page
+      - funnel pages: best-products comparison guide, quiz / lead magnet
     - InnerAlignmentLab (manifest-signal) — Spirituality / Manifestation — InnerAlignmentLab.com
       - pages: home, about, blog, reviews, category, contact, privacy-policy, terms, affiliate-disclosure, legal-page
+      - funnel pages: best-products comparison guide, quiz / lead magnet
     - DigitalOperatorAI (ai-hustle) — AI MMO / Side Hustle — DigitalOperatorAI.com
       - pages: home, about, blog, reviews, category, contact, privacy-policy, terms, affiliate-disclosure, legal-page
+      - funnel pages: best-products comparison guide, quiz / lead magnet
     - HealthyResetLab (metabolic-reset) — Weight Loss / Metabolism — healthyresetlab.com
       - pages: home, about, blog, reviews, category, contact, privacy-policy, terms, affiliate-disclosure, legal-page
+      - funnel pages: best-products comparison guide, quiz / lead magnet
     - ConnectionDecoded (love-psychology) — Dating / Relationship — connectiondecoded.com
       - pages: home, about, blog, reviews, category, contact, privacy-policy, terms, affiliate-disclosure, legal-page
+      - funnel pages: best-products comparison guide, quiz / lead magnet
   - Admin
     - dashboard, login, posts editor, post editor UI
   - API
     - generate-article, posts routes, products routes
+    - subscribers opt-in route
   - Data
     - lib/sites.ts, posts.json
 
