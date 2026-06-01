@@ -4,6 +4,7 @@ import { createProduct, saveMediaAssets, upsertPost } from '@/lib/db';
 import { generateArticle } from '@/lib/ai/client';
 import { getRuntimeSiteId, getSiteById } from '@/lib/sites';
 import { researchProductPage } from '@/lib/product-research';
+import { getAiSettings } from '@/lib/ai/settings';
 
 const bodySchema = z.object({
   site_id: z.string(),
@@ -23,6 +24,9 @@ export async function POST(request: Request) {
     if (!site) return NextResponse.json({ error: 'Invalid site_id.' }, { status: 400 });
     if (getRuntimeSiteId() && site.id !== getRuntimeSiteId()) {
       return NextResponse.json({ error: 'This admin can only manage its assigned site.' }, { status: 403 });
+    }
+    if (!(await getAiSettings()).apiKey) {
+      return NextResponse.json({ error: 'Connect and save a valid ShopAIKey API key before generating an article.' }, { status: 400 });
     }
 
     let research: { sourceUrl: string; text: string } | undefined;
