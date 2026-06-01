@@ -1,4 +1,5 @@
 import type { Site, SiteSlug } from './types';
+import { catalogsBySite, strategyBySite } from './content-architecture';
 
 const now = '2026-05-29T00:00:00.000Z';
 
@@ -40,7 +41,9 @@ export const sites: Site[] = [
       { label: 'Guide', title: 'Focus Stack Reviews', text: 'Understand features, tradeoffs, and realistic expectations before buying.' },
       { label: 'Checklist', title: 'Cognitive Support Picks', text: 'Use a structured framework to compare everyday wellness options.' },
     ],
-    categories: ['Sleep Quality', 'Focus Routines', 'Cognitive Support'],
+    categories: catalogsBySite['neuro-sleep'].map((catalog) => catalog.name),
+    catalogs: catalogsBySite['neuro-sleep'],
+    strategy: strategyBySite['neuro-sleep'],
     quizTitle: 'Find the right starting point for your brain and sleep routine.',
     quizText: 'Answer one quick question and get a practical next step based on your current priority.',
     faqs: [
@@ -88,7 +91,9 @@ export const sites: Site[] = [
       { label: 'Ritual', title: 'Alignment Resources', text: 'Explore accessible spiritual tools without extreme or fear-based messaging.' },
       { label: 'Course', title: 'Manifestation Guides', text: 'Evaluate programs through a grounded personal-development lens.' },
     ],
-    categories: ['Ritual Guides', 'Journaling', 'Manifestation Reviews'],
+    categories: catalogsBySite['manifest-signal'].map((catalog) => catalog.name),
+    catalogs: catalogsBySite['manifest-signal'],
+    strategy: strategyBySite['manifest-signal'],
     quizTitle: 'Discover a ritual that fits where you are right now.',
     quizText: 'Choose your current focus and receive a simple alignment practice to begin with.',
     faqs: [
@@ -136,7 +141,9 @@ export const sites: Site[] = [
       { label: 'Playbook', title: 'Operator Workflows', text: 'Turn scattered tactics into a focused sequence you can actually run.' },
       { label: 'Review', title: 'Training & SaaS Reviews', text: 'Assess value, tradeoffs, and fit before paying for another tool.' },
     ],
-    categories: ['AI Tools', 'Operator Playbooks', 'Side Hustle Reviews'],
+    categories: catalogsBySite['ai-hustle'].map((catalog) => catalog.name),
+    catalogs: catalogsBySite['ai-hustle'],
+    strategy: strategyBySite['ai-hustle'],
     quizTitle: 'Choose a workflow before you choose another tool.',
     quizText: 'Tell us your bottleneck and get a focused AI operator starting point.',
     faqs: [
@@ -184,7 +191,9 @@ export const sites: Site[] = [
       { label: 'Compare', title: 'Wellness Product Reviews', text: 'Review supplements and programs with a safety-first evaluation framework.' },
       { label: 'Tracker', title: 'Progress Checklists', text: 'Focus on habits you can measure without promoting extreme dieting.' },
     ],
-    categories: ['Healthy Habits', 'Metabolic Wellness', 'Product Reviews'],
+    categories: catalogsBySite['metabolic-reset'].map((catalog) => catalog.name),
+    catalogs: catalogsBySite['metabolic-reset'],
+    strategy: strategyBySite['metabolic-reset'],
     quizTitle: 'Start with one realistic habit that fits your current routine.',
     quizText: 'Choose the area you want to simplify and receive a practical reset starting point.',
     faqs: [
@@ -232,7 +241,9 @@ export const sites: Site[] = [
       { label: 'Course', title: 'Relationship Program Reviews', text: 'Evaluate courses without manipulation, fear, or pickup-artist messaging.' },
       { label: 'Quiz', title: 'Pattern Awareness Tools', text: 'Reflect on recurring dynamics and choose healthier next steps.' },
     ],
-    categories: ['Communication', 'Dating Psychology', 'Relationship Reviews'],
+    categories: catalogsBySite['love-psychology'].map((catalog) => catalog.name),
+    catalogs: catalogsBySite['love-psychology'],
+    strategy: strategyBySite['love-psychology'],
     quizTitle: 'Decode the pattern before you decide your next step.',
     quizText: 'Choose your current relationship challenge and get a healthier conversation starting point.',
     faqs: [

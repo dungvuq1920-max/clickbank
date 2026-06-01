@@ -7,6 +7,54 @@ export type SiteSlug =
 
 export type PostStatus = 'draft' | 'published' | 'scheduled';
 
+export type CatalogRole = 'traffic' | 'education' | 'solution' | 'review' | 'lead-generation';
+
+export type ContentCatalog = {
+  name: string;
+  slug: string;
+  role: CatalogRole;
+  description: string;
+  targetAudience: string;
+  problemsSolved: string[];
+  commercialIntent: string;
+  affiliateOpportunities: string[];
+  contentTypes: string[];
+  futureArticleIdeas: string[];
+};
+
+export type SiteStrategy = {
+  brandMission: string;
+  targetAudience: string;
+  corePainPoints: string[];
+  monetizationOpportunities: string[];
+  primaryKeywords: string[];
+  secondaryKeywords: string[];
+  commercialKeywords: string[];
+  reviewKeywords: string[];
+  comparisonKeywords: string[];
+  affiliateProductCategories: string[];
+  commissionPotential: {
+    lowTicket: string;
+    midTicket: string;
+    highTicket: string;
+    recurring: string;
+  };
+  suggestedLeadMagnet: string;
+  suggestedQuiz: string;
+  suggestedEmailFunnel: string;
+  searchIntentDistribution: {
+    informational: number;
+    commercial: number;
+    transactional: number;
+  };
+  scores: {
+    monetization: number;
+    seoDifficulty: number;
+    scalability: number;
+    launchPriority: number;
+  };
+};
+
 export type Site = {
   id: string;
   name: string;
@@ -33,6 +81,8 @@ export type Site = {
   pillars: Array<{ title: string; text: string }>;
   productTypes: Array<{ title: string; text: string; label: string }>;
   categories: string[];
+  catalogs: ContentCatalog[];
+  strategy: SiteStrategy;
   quizTitle: string;
   quizText: string;
   faqs: Array<{ question: string; answer: string }>;

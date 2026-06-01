@@ -21,6 +21,7 @@ export function SiteHome({ site, posts }: { site: Site; posts: Post[] }) {
       <TrustStrip site={site} />
       <PainPoints site={site} />
       <Pillars site={site} softClass={theme.soft} />
+      <Catalogs site={site} />
       <RecommendedProducts site={site} />
       <FeaturedArticles site={site} posts={posts} />
       <QuizSection site={site} />
@@ -29,6 +30,28 @@ export function SiteHome({ site, posts }: { site: Site; posts: Post[] }) {
       <Disclosure site={site} />
       {featured && <div className="fixed inset-x-3 bottom-3 z-50 md:hidden"><Link href={`/sites/${site.slug}/review/${featured.slug}`} className="affiliate-button w-full justify-center">{site.ctaTexts[0]}</Link></div>}
     </main>
+  );
+}
+
+function Catalogs({ site }: { site: Site }) {
+  return (
+    <section id="catalogs" className="bg-white px-5 py-16 text-neutral-950 md:py-24">
+      <div className="mx-auto max-w-7xl">
+        <p className="text-sm font-black uppercase tracking-widest" style={{ color: site.secondary_color }}>Explore the authority hubs</p>
+        <h2 className="mt-3 max-w-4xl text-4xl font-black tracking-tight md:text-5xl">Five focused catalogs for every stage of your journey.</h2>
+        <p className="mt-4 max-w-3xl leading-7 text-neutral-600">Start with education, move into practical solutions, and compare products with a clearer framework.</p>
+        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+          {site.catalogs.map((catalog, index) => (
+            <Link key={catalog.slug} href={`/sites/${site.slug}/category/${catalog.slug}`} className="rounded-3xl border border-black/10 bg-neutral-50 p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <span className="text-xs font-black uppercase tracking-widest" style={{ color: site.secondary_color }}>0{index + 1} / {catalog.role.replace('-', ' ')}</span>
+              <h3 className="mt-4 text-xl font-black">{catalog.name}</h3>
+              <p className="mt-3 text-sm leading-6 text-neutral-600">{catalog.description}</p>
+              <span className="mt-5 flex items-center gap-2 text-sm font-black" style={{ color: site.secondary_color }}>Explore catalog <ArrowRight size={15} /></span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 

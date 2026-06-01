@@ -12,6 +12,7 @@ export function SiteShell({ site, children }: { site: Site; children: React.Reac
           </Link>
           <nav className="hidden items-center gap-5 text-sm font-extrabold text-neutral-600 md:flex">
             <Link href={`/sites/${site.slug}/blog`}>Blog</Link>
+            <Link href={`/sites/${site.slug}#catalogs`}>Catalogs</Link>
             <Link href={`/sites/${site.slug}/review`}>Reviews</Link>
             <Link href={`/sites/${site.slug}/best-products`}>Best Products</Link>
             <Link href={`/sites/${site.slug}/quiz`}>Quiz</Link>
@@ -33,6 +34,7 @@ export function SiteShell({ site, children }: { site: Site; children: React.Reac
              <Link href={`/sites/${site.slug}/affiliate-disclosure`}>Affiliate Disclosure</Link>
             <Link href={`/sites/${site.slug}/best-products`}>Best Products</Link>
             <Link href={`/sites/${site.slug}/quiz`}>Free Quiz</Link>
+            {site.catalogs.slice(0, 4).map((catalog) => <Link key={catalog.slug} href={`/sites/${site.slug}/category/${catalog.slug}`}>{catalog.name}</Link>)}
           </div>
         </div>
       </footer>
