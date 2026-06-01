@@ -185,9 +185,16 @@ function SeoPack({ post, setPost }: { post: Post; setPost: (post: Post) => void 
 }
 
 function Illustrations({ post }: { post: Post }) {
-  return <div className="grid gap-4 md:grid-cols-2">{(post.image_suggestions || []).map((image) => <article key={`${image.filename}-${image.placement}`} className="rounded-2xl border border-black/10 bg-white p-5"><ImageIcon className="text-emerald-700" /><p className="mt-4 text-xs font-black uppercase tracking-widest text-neutral-400">{image.placement}</p><h3 className="mt-2 text-lg font-black">{image.alt_text}</h3><p className="mt-3 text-sm leading-6 text-neutral-600">{image.caption}</p><p className="mt-4 rounded-lg bg-neutral-100 p-3 text-xs font-bold text-neutral-600">Image brief: {image.image_search_query}</p><p className="mt-2 text-xs font-bold text-neutral-400">Royalty-free source: {image.source_suggestion}</p></article>)}</div>;
+  return <div className="grid gap-4 md:grid-cols-2">{(post.image_suggestions || []).map((image) => <article key={`${image.filename}-${image.placement}`} className="rounded-2xl border border-black/10 bg-white p-5"><ImageIcon className="text-emerald-700" /><p className="mt-4 text-xs font-black uppercase tracking-widest text-neutral-400">{image.placement}</p><h3 className="mt-2 text-lg font-black">{image.alt_text}</h3><p className="mt-3 text-sm leading-6 text-neutral-600">{image.caption}</p><p className="mt-4 rounded-lg bg-neutral-100 p-3 text-xs font-bold text-neutral-600">Image brief: {image.image_search_query}</p><div className="mt-3 flex flex-wrap items-center gap-3"><p className="text-xs font-bold text-neutral-400">Royalty-free source: {image.source_suggestion}</p><a className="text-xs font-black text-emerald-700" href={imageSearchUrl(image.source_suggestion, image.image_search_query)} target="_blank" rel="noopener noreferrer">Find image <ExternalLink className="inline" size={12} /></a></div></article>)}</div>;
 }
 
 function List({ title, items, icon: Icon }: { title: string; items: string[]; icon: typeof FileText }) {
   return <article className="rounded-2xl border border-black/10 bg-neutral-50 p-4"><Icon size={18} /><h3 className="mt-3 font-black">{title}</h3><ul className="mt-3 grid gap-2 text-sm leading-6 text-neutral-600">{items.map((item) => <li key={item}>- {item}</li>)}</ul></article>;
+}
+
+function imageSearchUrl(source: string, query: string) {
+  const encoded = encodeURIComponent(query);
+  if (source === 'Pexels') return `https://www.pexels.com/search/${encoded}/`;
+  if (source === 'Pixabay') return `https://pixabay.com/images/search/${encoded}/`;
+  return `https://unsplash.com/s/photos/${encoded}`;
 }

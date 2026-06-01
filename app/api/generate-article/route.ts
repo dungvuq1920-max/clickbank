@@ -45,6 +45,20 @@ export async function POST(request: Request) {
       niche: input.niche,
       extracted_data: generated.product_profile,
     });
+    const illustrations = [
+      {
+        image_search_query: generated.featured_image.search_query,
+        source_suggestion: generated.featured_image.source_suggestion || 'Unsplash' as const,
+        filename: generated.featured_image.filename,
+        alt_text: generated.featured_image.alt_text,
+        caption: generated.featured_image.caption,
+        placement: 'featured image',
+      },
+      ...generated.images.map((image) => ({
+        ...image,
+        image_search_query: image.search_query,
+      })),
+    ];
 
     const post = await upsertPost({
       site_id: site.id,
@@ -66,21 +80,11 @@ export async function POST(request: Request) {
       cta_blocks: generated.cta_blocks,
       tiktok_ideas: generated.tiktok_ideas,
       facebook_posts: generated.facebook_posts,
-      image_suggestions: generated.images.map((image) => ({
-        ...image,
-        image_search_query: image.search_query,
-      })),
+      image_suggestions: illustrations,
       seo_pack: generated.seo_pack,
     });
 
-    await saveMediaAssets(post.id, generated.images.map((image) => ({
-      image_search_query: image.search_query,
-      source_suggestion: image.source_suggestion,
-      filename: image.filename,
-      alt_text: image.alt_text,
-      caption: image.caption,
-      placement: image.placement,
-    })));
+    await saveMediaAssets(post.id, illustrations);
 
     return NextResponse.json({ post, product, generated, research: { source_url: research?.sourceUrl || input.product_url, note: researchNote, extracted_characters: research?.text.length || 0 } });
   } catch (error) {
