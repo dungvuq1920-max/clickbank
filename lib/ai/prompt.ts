@@ -2,22 +2,22 @@ import { getSiteById } from '@/lib/sites';
 import type { GenerateArticleInput, Site } from '@/lib/types';
 
 const structure = [
-  'Introduction',
-  'Quick Verdict',
+  'SEO Title',
+  'Introduction using PAS: problem, agitation, solution, then CTA',
+  'Quick Summary comparison table: ratings, best for, not ideal for, price, guarantee, official website',
   'What Is The Product?',
-  'Who Is It For?',
+  'My Research and Analysis',
+  'Main Features and Benefits',
   'How It Works',
-  'Key Benefits',
-  'Key Features',
-  'Pros',
-  'Cons',
-  'Pricing',
-  'Guarantee',
-  'Bonuses',
-  'Alternatives',
-  'FAQ',
+  'Who Should Buy This?',
+  'Pros and Cons table',
+  'Product vs Competitors table',
+  'Pricing, Bonuses and Value',
+  'Money Back Guarantee',
+  'Customer Feedback: common positive feedback and objections without invented testimonials',
+  'Frequently Asked Questions: 10 SEO-friendly questions',
   'Final Verdict',
-  'CTA',
+  'Final CTA',
 ];
 
 export function buildArticlePrompt(input: GenerateArticleInput) {
@@ -49,6 +49,9 @@ Product research requirements:
 - If exact pricing or guarantee is not found, write: "Pricing and guarantee details should be verified on the official website."
 - Do not invent facts, prices, scientific proof, testimonials, guarantees, bonuses, or vendor details.
 - If the page cannot be accessed, make cautious inferences from the URL and clearly mark uncertain details for verification.
+- Sales page research status: ${input.product_research_note || 'Not provided'}
+- Extracted sales page text:
+${input.product_page_content || 'Sales page text unavailable. Do not invent facts; mark uncertain details for verification.'}
 
 Review article structure:
 ${structure.map((item, index) => `${index + 1}. ${item}`).join('\n')}
@@ -67,6 +70,7 @@ Image system:
 SEO requirements:
 - Generate SEO title, meta description, slug, category, tags, Open Graph title, Open Graph description, Twitter title, Twitter description.
 - Generate Article schema, Review schema, FAQ schema, and Breadcrumb schema inside "schema".
+- Generate an SEO pack with 10 title variants, 10 meta descriptions, 20 long-tail keywords, internal links, external authority source suggestions, and one featured snippet answer.
 
 Compliance:
 - Health, sleep, brain, and weight loss: no medical claims, no cure claims, no guaranteed results, add health disclaimer.
@@ -100,7 +104,15 @@ Return valid JSON in exactly this shape:
   "faq": [],
   "internal_links": [],
   "tiktok_ideas": [],
-  "facebook_posts": []
+  "facebook_posts": [],
+  "seo_pack": {
+    "title_variants": [],
+    "meta_descriptions": [],
+    "long_tail_keywords": [],
+    "internal_links": [],
+    "authority_sources": [],
+    "featured_snippet": ""
+  }
 }
 `;
 }
@@ -199,5 +211,13 @@ export function fallbackArticle(input: GenerateArticleInput, site: Site) {
     internal_links: [`/sites/${site.slug}`, `/sites/${site.slug}/blog`],
     tiktok_ideas: [`3 things to verify before buying ${productName}`, `${site.niche} mistakes beginners make`],
     facebook_posts: [`Considering ${productName}? Here is what to verify before buying.`],
+    seo_pack: {
+      title_variants: [`${productName} Review: Benefits, Pricing, Pros and Cons`],
+      meta_descriptions: [`A careful ${productName} review for ${site.niche}. Verify pricing, bonuses, and guarantee details on the official website.`],
+      long_tail_keywords: [`${productName} review`, `${productName} pricing`, `${productName} pros and cons`],
+      internal_links: [`/sites/${site.slug}`, `/sites/${site.slug}/best-products`, `/sites/${site.slug}/quiz`],
+      authority_sources: ['Add relevant external authority sources after manual editorial review.'],
+      featured_snippet: `${productName} is a product that should be evaluated against its official pricing, guarantee, features, and fit for your goals before purchase.`,
+    },
   };
 }

@@ -48,3 +48,13 @@ $env:ADMIN_PASSWORD = "replace-with-a-strong-password"
 .\set-site-vars.ps1
 .\deploy-5-sites.ps1
 ```
+
+## AI API for Article Generation
+
+Each website has its own protected admin at `/admin`. Open **Settings** in that
+admin panel and save an OpenAI-compatible API base URL, model, and API key.
+
+The key is stored server-side in the service volume at `/app/data` and is never
+returned to the browser after saving. You can also define `AI_BASE_URL`,
+`AI_MODEL`, and `AI_API_KEY` as Railway environment variables; environment
+variables take precedence over volume settings.

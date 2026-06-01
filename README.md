@@ -41,6 +41,20 @@ services, waits for Railway to report `SUCCESS`, and verifies each homepage.
 See [RAILWAY_SETUP.md](RAILWAY_SETUP.md) for token setup and
 [QUICK_START.md](QUICK_START.md) for the daily workflow.
 
+## Admin Publishing Studio
+
+Open `/admin` on the Railway domain for the website you want to manage:
+
+1. Open **Settings** and save an OpenAI-compatible API connection.
+2. Open **Generate Review**.
+3. Paste the official product sales-page URL and ClickBank hoplink.
+4. Generate the research-backed draft, then review facts, SEO pack, and
+   royalty-free illustration briefs.
+5. Use **Push to Website** to publish the article on the current domain.
+
+API settings and fallback draft data stay server-side in the Railway
+`/app/data` volume and are excluded from Git.
+
 ## Environment
 
 Each production service requires:

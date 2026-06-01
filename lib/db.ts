@@ -108,6 +108,14 @@ export async function upsertPost(input: Partial<Post> & Pick<Post, 'site_id' | '
     tiktok_ideas: input.tiktok_ideas || [],
     facebook_posts: input.facebook_posts || [],
     image_suggestions: input.image_suggestions || [],
+    seo_pack: input.seo_pack || {
+      title_variants: [],
+      meta_descriptions: [],
+      long_tail_keywords: [],
+      internal_links: [],
+      authority_sources: [],
+      featured_snippet: '',
+    },
   };
 
   if (hasSupabaseEnv()) {

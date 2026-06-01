@@ -163,6 +163,16 @@ export type Post = {
   tiktok_ideas?: string[];
   facebook_posts?: string[];
   image_suggestions?: Array<Omit<MediaAsset, 'id' | 'post_id' | 'created_at'>>;
+  seo_pack?: SeoPack;
+};
+
+export type SeoPack = {
+  title_variants: string[];
+  meta_descriptions: string[];
+  long_tail_keywords: string[];
+  internal_links: string[];
+  authority_sources: string[];
+  featured_snippet: string;
 };
 
 export type GeneratedArticle = {
@@ -198,6 +208,7 @@ export type GeneratedArticle = {
   internal_links: string[];
   tiktok_ideas: string[];
   facebook_posts: string[];
+  seo_pack: SeoPack;
 };
 
 export type GenerateArticleInput = {
@@ -209,4 +220,6 @@ export type GenerateArticleInput = {
   target_keyword?: string;
   article_length?: string;
   tone?: string;
+  product_page_content?: string;
+  product_research_note?: string;
 };

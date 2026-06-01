@@ -2,6 +2,8 @@ node_modules/
 .next/
 dist/
 *.log
+data/local-db.json
+data/ai-settings.json
 .env
 .env.local
 .DS_Store

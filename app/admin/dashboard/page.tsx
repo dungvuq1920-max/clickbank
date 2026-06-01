@@ -31,8 +31,10 @@ export default async function DashboardPage() {
         ))}
       </section>
 
-      <section className="mt-8 grid gap-6 xl:grid-cols-[1fr_420px]">
+      <section className="mt-8">
         <GenerateArticleForm sites={adminSites} />
+      </section>
+      <section className="mt-8">
         <Card>
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-black">Recent articles</h2>

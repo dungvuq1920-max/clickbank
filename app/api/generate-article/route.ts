@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { createProduct, saveMediaAssets, upsertPost } from '@/lib/db';
 import { generateArticle } from '@/lib/ai/client';
 import { getRuntimeSiteId, getSiteById } from '@/lib/sites';
+import { researchProductPage } from '@/lib/product-research';
 
 const bodySchema = z.object({
   site_id: z.string(),
@@ -24,7 +25,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'This admin can only manage its assigned site.' }, { status: 403 });
     }
 
-    const generated = await generateArticle(input);
+    let research: { sourceUrl: string; text: string } | undefined;
+    let researchNote = 'Sales page research completed.';
+    try {
+      research = await researchProductPage(input.product_url);
+    } catch (error) {
+      researchNote = error instanceof Error ? `Sales page research warning: ${error.message}` : 'Sales page research was unavailable.';
+    }
+    const generated = await generateArticle({
+      ...input,
+      product_page_content: research?.text,
+      product_research_note: researchNote,
+    });
     const product = await createProduct({
       site_id: site.id,
       product_name: String(generated.product_profile.product_name || generated.title),
@@ -58,6 +70,7 @@ export async function POST(request: Request) {
         ...image,
         image_search_query: image.search_query,
       })),
+      seo_pack: generated.seo_pack,
     });
 
     await saveMediaAssets(post.id, generated.images.map((image) => ({
@@ -69,7 +82,7 @@ export async function POST(request: Request) {
       placement: image.placement,
     })));
 
-    return NextResponse.json({ post, product, generated });
+    return NextResponse.json({ post, product, generated, research: { source_url: research?.sourceUrl || input.product_url, note: researchNote, extracted_characters: research?.text.length || 0 } });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Unable to generate article.' }, { status: 500 });
   }

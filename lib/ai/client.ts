@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { getSiteById } from '@/lib/sites';
 import type { GenerateArticleInput, GeneratedArticle } from '@/lib/types';
 import { buildArticlePrompt, fallbackArticle } from './prompt';
+import { getAiSettings } from './settings';
 
 const generatedArticleSchema = z.object({
   product_profile: z.record(z.string(), z.unknown()),
@@ -36,6 +37,14 @@ const generatedArticleSchema = z.object({
   internal_links: z.array(z.string()),
   tiktok_ideas: z.array(z.string()),
   facebook_posts: z.array(z.string()),
+  seo_pack: z.object({
+    title_variants: z.array(z.string()),
+    meta_descriptions: z.array(z.string()),
+    long_tail_keywords: z.array(z.string()),
+    internal_links: z.array(z.string()),
+    authority_sources: z.array(z.string()),
+    featured_snippet: z.string(),
+  }),
 });
 
 function parseJson(text: string) {
@@ -47,9 +56,7 @@ export async function generateArticle(input: GenerateArticleInput): Promise<Gene
   const site = getSiteById(input.site_id);
   if (!site) throw new Error('Invalid site.');
 
-  const apiKey = process.env.AI_API_KEY;
-  const baseUrl = process.env.AI_BASE_URL || 'https://api.shopaikey.com/v1';
-  const model = process.env.AI_MODEL || 'gpt-4o';
+  const { apiKey, baseUrl, model } = await getAiSettings();
 
   if (!apiKey) {
     return fallbackArticle(input, site);
