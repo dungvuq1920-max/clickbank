@@ -52,6 +52,55 @@ function parseJson(text: string) {
   return JSON.parse(clean);
 }
 
+function stringify(value: unknown, fallback = '') {
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  if (value && typeof value === 'object') {
+    const object = value as Record<string, unknown>;
+    return stringify(object.url || object.href || object.link || object.question || object.title || object.name || object.placement || object.section || fallback);
+  }
+  return fallback;
+}
+
+function normalizeFaq(value: unknown) {
+  if (typeof value === 'string') {
+    const [question, ...answer] = value.split(/\n|Answer:/i);
+    return { question: question.replace(/^Question:\s*/i, '').trim(), answer: answer.join(' ').trim() || 'See the official product page for verified details.' };
+  }
+  const object = (value || {}) as Record<string, unknown>;
+  return {
+    question: stringify(object.question || object.q || object.title),
+    answer: stringify(object.answer || object.a || object.response, 'See the official product page for verified details.'),
+  };
+}
+
+function normalizeArticlePayload(value: unknown) {
+  const article = value as Record<string, unknown>;
+  const images = Array.isArray(article.images) ? article.images : [];
+  const seoPack = (article.seo_pack || {}) as Record<string, unknown>;
+  return {
+    ...article,
+    images: images.map((image, index) => {
+      const object = image as Record<string, unknown>;
+      return {
+        ...object,
+        search_query: stringify(object.search_query || object.query),
+        filename: stringify(object.filename, `supporting-image-${index + 1}.jpg`),
+        alt_text: stringify(object.alt_text || object.alt),
+        caption: stringify(object.caption),
+        placement: stringify(object.placement || object.section, `supporting image ${index + 1}`),
+      };
+    }),
+    faq: Array.isArray(article.faq) ? article.faq.map(normalizeFaq) : [],
+    internal_links: Array.isArray(article.internal_links) ? article.internal_links.map((item) => stringify(item)).filter(Boolean) : [],
+    seo_pack: {
+      ...seoPack,
+      internal_links: Array.isArray(seoPack.internal_links) ? seoPack.internal_links.map((item) => stringify(item)).filter(Boolean) : [],
+      authority_sources: Array.isArray(seoPack.authority_sources) ? seoPack.authority_sources.map((item) => stringify(item)).filter(Boolean) : [],
+    },
+  };
+}
+
 function articleWordCount(html: string) {
   return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().split(' ').filter(Boolean).length;
 }
@@ -112,7 +161,7 @@ export async function generateArticle(input: GenerateArticleInput): Promise<Gene
 
   const content = payload.choices?.[0]?.message?.content;
   if (!content) throw new Error('AI returned an empty response.');
-  const article = generatedArticleSchema.parse(parseJson(content));
+  const article = generatedArticleSchema.parse(normalizeArticlePayload(parseJson(content)));
   assertArticleQuality(article, input);
   return article;
 }
