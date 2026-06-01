@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { CheckCircle2, KeyRound, Loader2, PlugZap, Save, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, KeyRound, Loader2, PlugZap, ShieldCheck } from 'lucide-react';
 import { Button, Card, Field, inputClass } from '@/components/ui';
 
 type PublicSettings = {
@@ -27,24 +27,20 @@ export default function ApiSettingsPanel() {
       .finally(() => setLoading(false));
   }, []);
 
-  async function request(method: 'POST' | 'PUT') {
+  async function testAndSave() {
     setLoading(true);
     setMessage('');
     try {
       const response = await fetch('/api/ai-settings', {
-        method,
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ apiKey: form.apiKey, model: form.model, baseUrl: 'https://api.shopaikey.com/v1' }),
       });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || 'Unable to connect to ShopAIKey.');
-      if (method === 'PUT') {
-        setMessage(payload.modelAvailable === false ? `Connected, but model "${form.model}" was not listed for this key. Choose a model included in your ShopAIKey group.` : 'Connection successful. Your ShopAIKey key is valid.');
-      } else {
-        setSettings(payload);
-        setForm((current) => ({ ...current, apiKey: '' }));
-        setMessage('ShopAIKey connection saved securely on this Railway service.');
-      }
+      setSettings(payload);
+      setForm((current) => ({ ...current, apiKey: '' }));
+      setMessage('Connection successful. Your ShopAIKey key is valid and stored server-side. You can generate an article now.');
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Unable to connect to ShopAIKey.');
     } finally {
@@ -71,8 +67,7 @@ export default function ApiSettingsPanel() {
         </Field>
       </div>
       <div className="flex flex-wrap items-center gap-3">
-        <Button type="button" className="bg-emerald-700" onClick={() => request('PUT')} disabled={loading || (!form.apiKey && !settings?.configured)}>{loading ? <Loader2 className="animate-spin" size={17} /> : <PlugZap size={17} />} Test Connection</Button>
-        <Button type="button" onClick={() => request('POST')} disabled={loading || !form.model || (!form.apiKey && !settings?.configured)}><Save size={17} /> Save Key</Button>
+        <Button type="button" className="bg-emerald-700" onClick={testAndSave} disabled={loading || !form.model || (!form.apiKey && !settings?.configured)}>{loading ? <Loader2 className="animate-spin" size={17} /> : <PlugZap size={17} />} Test & Save Key</Button>
         {settings?.configured ? <span className="flex items-center gap-2 text-sm font-black text-emerald-700"><CheckCircle2 size={17} /> Key stored server-side</span> : <span className="flex items-center gap-2 text-sm font-black text-amber-700"><ShieldCheck size={17} /> Add a key to enable real AI generation</span>}
       </div>
       {message && <p className="rounded-xl border border-black/10 bg-neutral-50 p-4 text-sm font-bold">{message}</p>}

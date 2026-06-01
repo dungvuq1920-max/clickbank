@@ -52,7 +52,7 @@ $env:ADMIN_PASSWORD = "replace-with-a-strong-password"
 ## AI API for Article Generation
 
 Each website has its own protected single-page admin at `/admin`. Paste the
-ShopAIKey API key, test the connection, and save it before generating articles.
+ShopAIKey API key and click **Test & Save Key** before generating articles.
 
 The integration follows the official ShopAIKey OpenAI-compatible format:
 

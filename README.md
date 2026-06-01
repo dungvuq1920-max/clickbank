@@ -46,8 +46,8 @@ See [RAILWAY_SETUP.md](RAILWAY_SETUP.md) for token setup and
 Open `/admin` on the Railway domain for the website you want to manage. The
 admin is intentionally a single-page workflow:
 
-1. Paste the ShopAIKey API key and test the connection.
-2. Save the key server-side.
+1. Paste the ShopAIKey API key and click **Test & Save Key**.
+2. Confirm the key is stored server-side.
 3. Paste the official product sales-page URL and ClickBank hoplink.
 4. Generate the research-backed draft, then review facts, SEO pack, and
    royalty-free illustration briefs.
