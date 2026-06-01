@@ -2,7 +2,7 @@ import { lookup } from 'node:dns/promises';
 import { isIP } from 'node:net';
 
 const maxPageBytes = 1000000;
-const maxPageCharacters = 24000;
+const maxPageCharacters = 14000;
 const maxRedirects = 4;
 
 function isPrivateIp(address: string) {

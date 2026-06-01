@@ -63,7 +63,7 @@ ${structure.map((item, index) => `${index + 1}. ${item}`).join('\n')}
 Copywriting requirements:
 - Write 3,000-5,000 words in native US English with a human editorial voice.
 - Put the complete 3,000-5,000 word article inside "content_html" as publication-ready HTML. Do not return a placeholder, summary, outline, note, or abbreviated version.
-- Put the complete article text inside "content_markdown" as well. Every required section must be fully written.
+- Set "content_markdown" to an empty string to keep the response compact. The complete publication-ready article belongs in "content_html".
 - Use PAS in the introduction and AIDA naturally throughout the article.
 - Build EEAT with careful research language, transparent uncertainty, balanced pros and cons, and practical buyer guidance.
 - Include urgency or scarcity only when supported by extracted sales-page text. Never fabricate limited-time claims, countdowns, stock levels, or expiring bonuses.
