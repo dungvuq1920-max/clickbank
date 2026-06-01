@@ -119,6 +119,29 @@
         "focus": true,
         "panel": "new"
       }
+    },
+    {
+      "label": "🌐 Add Domains to Railway (PowerShell)",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", ".\\add-domains.ps1"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
+    },
+    {
+      "label": "🌐 Add Domains to Railway (Windows)",
+      "type": "shell",
+      "command": ".\\add-domains.bat",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
     }
   ]
 }
