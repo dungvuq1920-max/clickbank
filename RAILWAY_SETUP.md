@@ -51,8 +51,17 @@ $env:ADMIN_PASSWORD = "replace-with-a-strong-password"
 
 ## AI API for Article Generation
 
-Each website has its own protected admin at `/admin`. Open **Settings** in that
-admin panel and save an OpenAI-compatible API base URL, model, and API key.
+Each website has its own protected single-page admin at `/admin`. Paste the
+ShopAIKey API key, test the connection, and save it before generating articles.
+
+The integration follows the official ShopAIKey OpenAI-compatible format:
+
+```text
+Base URL: https://api.shopaikey.com/v1
+Test endpoint: GET /models
+Article endpoint: POST /chat/completions
+Authorization: Bearer <ShopAIKey API key>
+```
 
 The key is stored server-side in the service volume at `/app/data` and is never
 returned to the browser after saving. You can also define `AI_BASE_URL`,

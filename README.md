@@ -43,10 +43,11 @@ See [RAILWAY_SETUP.md](RAILWAY_SETUP.md) for token setup and
 
 ## Admin Publishing Studio
 
-Open `/admin` on the Railway domain for the website you want to manage:
+Open `/admin` on the Railway domain for the website you want to manage. The
+admin is intentionally a single-page workflow:
 
-1. Open **Settings** and save an OpenAI-compatible API connection.
-2. Open **Generate Review**.
+1. Paste the ShopAIKey API key and test the connection.
+2. Save the key server-side.
 3. Paste the official product sales-page URL and ClickBank hoplink.
 4. Generate the research-backed draft, then review facts, SEO pack, and
    royalty-free illustration briefs.

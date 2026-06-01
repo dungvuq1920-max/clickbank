@@ -87,7 +87,7 @@ export default function GenerateArticleForm({ sites }: { sites: Site[] }) {
     <div className="grid gap-6">
       <Card className="overflow-hidden p-0">
         <div className="bg-neutral-950 p-6 text-white md:p-8">
-          <p className="text-xs font-black uppercase tracking-[.22em] text-yellow-400">AI Affiliate Publishing Studio</p>
+          <p className="text-xs font-black uppercase tracking-[.22em] text-yellow-400">Step 2 / Generate and publish</p>
           <h2 className="mt-3 max-w-4xl text-3xl font-black tracking-tight md:text-5xl">Sales page to conversion-ready review in one workflow.</h2>
           <p className="mt-4 max-w-3xl leading-7 text-white/65">Research the official product page, generate a balanced long-form article, prepare illustration briefs, review the SEO pack, and push the final article to {selectedSite.name}.</p>
         </div>

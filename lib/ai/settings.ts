@@ -36,7 +36,7 @@ export async function getAiSettings(): Promise<AiSettings> {
 export async function saveAiSettings(input: { baseUrl: string; model: string; apiKey?: string }) {
   const current = await readSavedSettings();
   const next: AiSettings = {
-    baseUrl: input.baseUrl.trim().replace(/\/+$/, ''),
+    baseUrl: defaults.baseUrl,
     model: input.model.trim(),
     apiKey: input.apiKey?.trim() || current.apiKey || '',
     updatedAt: new Date().toISOString(),
@@ -44,6 +44,29 @@ export async function saveAiSettings(input: { baseUrl: string; model: string; ap
   await fs.mkdir(path.dirname(settingsFile), { recursive: true });
   await fs.writeFile(settingsFile, JSON.stringify(next, null, 2), 'utf8');
   return next;
+}
+
+export async function testAiSettings(input?: { apiKey?: string; model?: string }) {
+  const current = await getAiSettings();
+  const apiKey = input?.apiKey?.trim() || current.apiKey;
+  const model = input?.model?.trim() || current.model;
+  if (!apiKey) throw new Error('Paste your ShopAIKey API key first.');
+  const response = await fetch(`${defaults.baseUrl}/models`, {
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      Accept: 'application/json',
+    },
+    signal: AbortSignal.timeout(12000),
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(payload?.error?.message || payload?.message || `ShopAIKey returned HTTP ${response.status}.`);
+  const models = Array.isArray(payload?.data) ? payload.data.map((item: { id?: string }) => item.id).filter(Boolean) : [];
+  return {
+    ok: true,
+    model,
+    modelAvailable: models.length ? models.includes(model) : null,
+    availableModels: models.slice(0, 80),
+  };
 }
 
 export function publicAiSettings(settings: AiSettings) {
