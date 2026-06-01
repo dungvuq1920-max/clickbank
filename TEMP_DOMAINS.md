@@ -23,6 +23,7 @@ Create or configure services, deploy them, and print their generated domains:
 
 ```powershell
 .\create-5-sites.ps1
+.\add-site-volumes.ps1
 .\deploy-5-sites.ps1
 .\generate-site-domains.ps1
 ```
@@ -32,6 +33,9 @@ Each service receives:
 - `APP_MODE=site`
 - Its matching `SITE_SLUG`
 - `ADMIN_PASSWORD`
+
+Each service also has its own Railway volume mounted at `/app/data`, so local
+fallback content survives redeploys before Supabase is configured.
 
 To attach purchased custom domains, run:
 

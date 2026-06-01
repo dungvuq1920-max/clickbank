@@ -29,6 +29,12 @@ Railway CLI.
 .\generate-site-domains.ps1
 ```
 
+If services are recreated, add persistent storage before publishing content:
+
+```powershell
+.\add-site-volumes.ps1
+```
+
 ## Admin Password
 
 Each production service must define `ADMIN_PASSWORD`. To reset the password for
