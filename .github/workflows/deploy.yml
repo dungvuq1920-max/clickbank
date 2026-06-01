@@ -1,4 +1,4 @@
-name: Deploy to Railway
+name: Deploy Railway Sites
 
 on:
   push:
@@ -8,31 +8,21 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - neuro-sleep-site
+          - manifest-signal-site
+          - ai-hustle-site
+          - metabolic-reset-site
+          - love-psychology-site
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      - name: Deploy to Railway
+      - name: Deploy site service
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          railway login --token $RAILWAY_TOKEN
-          railway up --service clickbank --environment production --detach
-          echo "Deployment started on Railway"
-
-      - name: Verify deployment
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          railway login --token $RAILWAY_TOKEN
-          sleep 30
-          HEALTH=$(curl -s -w "%{http_code}" -o /dev/null https://clickbank-production.up.railway.app/)
-          if [ $HEALTH -eq 307 ] || [ $HEALTH -eq 200 ]; then
-            echo "✅ Deployment verified - App is live!"
-          else
-            echo "❌ Health check failed with code $HEALTH"
-            exit 1
-          fi
+        run: railway up --project a9895cce-1c0f-4055-9e39-1f381cf37051 --environment production --service ${{ matrix.service }} --detach

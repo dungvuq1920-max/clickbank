@@ -165,7 +165,7 @@ async function callGemini(apiKey, model, prompt) {
   return data.candidates?.[0]?.content?.parts?.map((part) => part.text || '').join('\n');
 }
 
-function demoArticle({ productUrl, affiliateUrl, audience, angle, siteName }) {
+function demoArticle({ affiliateUrl, audience, angle, siteName }) {
   return `
     <h1>Review ${siteName}: Có đáng thử cho người muốn cải thiện cuộc sống hằng ngày?</h1>
     <p>Nếu bạn đang kéo traffic từ TikTok/Reels bằng nội dung faceless, một bài review rõ ràng sẽ giúp người xem chuyển từ tò mò sang click có chủ đích. Bài viết này phân tích sản phẩm từ góc nhìn thực tế, dễ hiểu và không phóng đại.</p>

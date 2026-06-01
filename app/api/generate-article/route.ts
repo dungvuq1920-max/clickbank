@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createProduct, saveMediaAssets, upsertPost } from '@/lib/db';
 import { generateArticle } from '@/lib/ai/client';
-import { getSiteById } from '@/lib/sites';
+import { getRuntimeSiteId, getSiteById } from '@/lib/sites';
 
 const bodySchema = z.object({
   site_id: z.string(),
@@ -20,6 +20,9 @@ export async function POST(request: Request) {
     const input = bodySchema.parse(await request.json());
     const site = getSiteById(input.site_id);
     if (!site) return NextResponse.json({ error: 'Invalid site_id.' }, { status: 400 });
+    if (getRuntimeSiteId() && site.id !== getRuntimeSiteId()) {
+      return NextResponse.json({ error: 'This admin can only manage its assigned site.' }, { status: 403 });
+    }
 
     const generated = await generateArticle(input);
     const product = await createProduct({

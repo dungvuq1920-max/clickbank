@@ -1,12 +1,13 @@
 import { ExternalLink } from 'lucide-react';
 import { Card, Button } from '@/components/ui';
-import { sites } from '@/lib/sites';
+import { getAdminSites } from '@/lib/sites';
 
 export default function SitesPage() {
+  const sites = getAdminSites();
   return (
     <main className="p-5 lg:p-8">
       <h1 className="text-4xl font-black">Sites</h1>
-      <p className="mt-2 text-neutral-600">Five separate affiliate website profiles managed by one admin panel.</p>
+      <p className="mt-2 text-neutral-600">Website profile managed by this Railway service.</p>
       <section className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {sites.map((site, index) => (
           <Card key={site.id}>

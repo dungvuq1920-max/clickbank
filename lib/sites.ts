@@ -107,3 +107,11 @@ export function getRuntimeSite(): Site {
   const slug = (process.env.SITE_SLUG || 'neuro-sleep') as SiteSlug;
   return getSiteBySlug(slug) || sites[0];
 }
+
+export function getAdminSites(): Site[] {
+  return process.env.APP_MODE === 'site' ? [getRuntimeSite()] : sites;
+}
+
+export function getRuntimeSiteId(): string | undefined {
+  return process.env.APP_MODE === 'site' ? getRuntimeSite().id : undefined;
+}

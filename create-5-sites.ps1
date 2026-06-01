@@ -1,118 +1,33 @@
-# PowerShell script to create 5 temporary Railway sites
-
-Write-Host ""
-Write-Host "🚀 Creating 5 Temporary Railway Sites" -ForegroundColor Cyan
-Write-Host "=======================================" -ForegroundColor Cyan
-Write-Host ""
-
-# Define sites
-$sites = @(
-    @{
-        name = "neuro-sleep-site"
-        slug = "neuro-sleep"
-        displayName = "NeuroRestLab"
-    },
-    @{
-        name = "manifest-signal-site"
-        slug = "manifest-signal"
-        displayName = "InnerAlignmentLab"
-    },
-    @{
-        name = "ai-hustle-site"
-        slug = "ai-hustle"
-        displayName = "DigitalOperatorAI"
-    },
-    @{
-        name = "metabolic-reset-site"
-        slug = "metabolic-reset"
-        displayName = "HealthyResetLab"
-    },
-    @{
-        name = "love-psychology-site"
-        slug = "love-psychology"
-        displayName = "ConnectionDecoded"
-    }
+param(
+    [string]$AdminPassword = $env:ADMIN_PASSWORD
 )
 
-# Check Railway CLI
-Write-Host "📋 Checking Railway CLI..." -ForegroundColor Yellow
-npx @railway/cli --version >$null 2>&1
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "❌ Railway CLI not found. Install with: npm install -g @railway/cli" -ForegroundColor Red
-    exit 1
+$ErrorActionPreference = "Stop"
+$sites = @(
+    @{ service = "neuro-sleep-site"; slug = "neuro-sleep"; name = "NeuroRestLab" },
+    @{ service = "manifest-signal-site"; slug = "manifest-signal"; name = "InnerAlignmentLab" },
+    @{ service = "ai-hustle-site"; slug = "ai-hustle"; name = "DigitalOperatorAI" },
+    @{ service = "metabolic-reset-site"; slug = "metabolic-reset"; name = "HealthyResetLab" },
+    @{ service = "love-psychology-site"; slug = "love-psychology"; name = "ConnectionDecoded" }
+)
+
+if (-not $AdminPassword) {
+    throw "Set ADMIN_PASSWORD or pass -AdminPassword before creating production services."
 }
-Write-Host "✅ Railway CLI found" -ForegroundColor Green
-Write-Host ""
 
-# Check login
-Write-Host "🔐 Checking Railway login..." -ForegroundColor Yellow
-npx @railway/cli whoami >$null 2>&1
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "❌ Not logged in to Railway. Run: railway login" -ForegroundColor Red
-    exit 1
-}
-Write-Host "✅ Logged in to Railway" -ForegroundColor Green
-Write-Host ""
-
-# Create services
-Write-Host "🛠️  Creating services..." -ForegroundColor Yellow
-Write-Host ""
-
-$successCount = 0
-$failCount = 0
+npx --yes @railway/cli whoami | Out-Null
+$existing = @(npx --yes @railway/cli service list --json | ConvertFrom-Json)
 
 foreach ($site in $sites) {
-    Write-Host "Creating service: $($site.displayName)" -ForegroundColor Cyan
-    Write-Host "  Service name: $($site.name)" -ForegroundColor Gray
-    Write-Host "  Site slug: $($site.slug)" -ForegroundColor Gray
-    
-    try {
-        # Create service
-        npx @railway/cli service new $site.name --name $site.displayName 2>&1 | Out-Null
-        
-        if ($LASTEXITCODE -eq 0 -or $LASTEXITCODE -eq 127) {  # 127 = already exists
-            Write-Host "  ✅ Service created/connected" -ForegroundColor Green
-            $successCount++
-            
-            # Wait a moment before setting variables
-            Start-Sleep -Seconds 2
-        }
-        else {
-            Write-Host "  ❌ Failed to create service" -ForegroundColor Red
-            $failCount++
-        }
+    if ($existing.name -notcontains $site.service) {
+        Write-Host "Creating $($site.service)..."
+        npx --yes @railway/cli add --service $site.service --json | Out-Null
+    } else {
+        Write-Host "$($site.service) already exists."
     }
-    catch {
-        Write-Host "  ⚠️  Warning: $_" -ForegroundColor Yellow
-        $successCount++  # Count as success if it might already exist
-    }
-    
-    Write-Host ""
+
+    npx --yes @railway/cli variable set "APP_MODE=site" "SITE_SLUG=$($site.slug)" "ADMIN_PASSWORD=$AdminPassword" --service $site.service --skip-deploys --json | Out-Null
+    Write-Host "Configured $($site.name)."
 }
 
-Write-Host "=======================================" -ForegroundColor Cyan
-Write-Host "✅ Services created: $successCount" -ForegroundColor Green
-Write-Host "❌ Failed: $failCount" -ForegroundColor Red
-Write-Host ""
-
-# Next steps
-Write-Host "📝 Next Steps:" -ForegroundColor Yellow
-Write-Host ""
-Write-Host "1. Set environment variables for each service:" -ForegroundColor White
-Write-Host "   Run: .\set-site-vars.ps1" -ForegroundColor Cyan
-Write-Host ""
-Write-Host "2. Or set manually in Railway Dashboard:" -ForegroundColor White
-Write-Host "   For each service, add variable: SITE_SLUG=[slug]" -ForegroundColor Cyan
-Write-Host ""
-Write-Host "3. Deploy each service:" -ForegroundColor White
-Write-Host "   Run: .\deploy-5-sites.ps1" -ForegroundColor Cyan
-Write-Host ""
-Write-Host "4. Access your temporary domains:" -ForegroundColor White
-
-foreach ($site in $sites) {
-    $domain = "$($site.slug)-production.up.railway.app"
-    Write-Host "   🌐 $($site.displayName): https://$domain" -ForegroundColor Green
-}
-
-Write-Host ""
-Write-Host "✨ Done! Continue with next steps." -ForegroundColor Green
+Write-Host "Five site services are ready. Run .\deploy-5-sites.ps1 next."

@@ -2,10 +2,11 @@ import Link from 'next/link';
 import { Pencil, Trash2 } from 'lucide-react';
 import { listPosts } from '@/lib/db';
 import { getSiteById } from '@/lib/sites';
+import { getRuntimeSiteId } from '@/lib/sites';
 import { Card } from '@/components/ui';
 
 export default async function PostsPage() {
-  const posts = await listPosts();
+  const posts = await listPosts({ siteId: getRuntimeSiteId() });
 
   return (
     <main className="p-5 lg:p-8">

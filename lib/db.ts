@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { sites } from './sites';
 import type { AffiliateLink, MediaAsset, Post, PostStatus, Product } from './types';
 import { createServiceClient, hasSupabaseEnv } from './supabase/server';
+import { sanitizeArticleHtml } from './sanitize';
 
 type LocalDb = {
   products: Product[];
@@ -41,10 +42,10 @@ export async function listSites() {
   return sites;
 }
 
-export async function getDashboardStats() {
-  const posts = await listPosts();
+export async function getDashboardStats(siteId?: string) {
+  const posts = await listPosts({ siteId });
   return {
-    totalSites: sites.length,
+    totalSites: siteId ? 1 : sites.length,
     totalPosts: posts.length,
     draftPosts: posts.filter((post) => post.status === 'draft').length,
     publishedPosts: posts.filter((post) => post.status === 'published').length,
@@ -83,7 +84,7 @@ export async function upsertPost(input: Partial<Post> & Pick<Post, 'site_id' | '
     slug: input.slug,
     excerpt: input.excerpt || '',
     content_markdown: input.content_markdown || '',
-    content_html: input.content_html || '',
+    content_html: sanitizeArticleHtml(input.content_html || ''),
     featured_image: input.featured_image || '',
     seo_title: input.seo_title || input.title,
     meta_description: input.meta_description || input.excerpt || '',

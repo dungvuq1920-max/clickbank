@@ -2,17 +2,18 @@ import Link from 'next/link';
 import { ArrowRight, FileText, Globe2, Timer, Upload, type LucideIcon } from 'lucide-react';
 import { Card } from '@/components/ui';
 import { getDashboardStats } from '@/lib/db';
-import { sites } from '@/lib/sites';
+import { getAdminSites, getRuntimeSiteId } from '@/lib/sites';
 import GenerateArticleForm from './quick-generate';
 
 export default async function DashboardPage() {
-  const stats = await getDashboardStats();
+  const adminSites = getAdminSites();
+  const stats = await getDashboardStats(getRuntimeSiteId());
 
   return (
     <main className="p-5 lg:p-8">
       <div className="mb-8 max-w-4xl">
         <p className="text-sm font-black uppercase text-yellow-600">Dashboard overview</p>
-        <h1 className="mt-2 text-4xl font-black tracking-tight lg:text-6xl">AI affiliate publishing for 5 niche sites.</h1>
+        <h1 className="mt-2 text-4xl font-black tracking-tight lg:text-6xl">AI affiliate publishing for {adminSites.length === 1 ? adminSites[0].name : '5 niche sites'}.</h1>
       </div>
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         {([
@@ -31,7 +32,7 @@ export default async function DashboardPage() {
       </section>
 
       <section className="mt-8 grid gap-6 xl:grid-cols-[1fr_420px]">
-        <GenerateArticleForm sites={sites} />
+        <GenerateArticleForm sites={adminSites} />
         <Card>
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-black">Recent articles</h2>

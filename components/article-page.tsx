@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { CheckCircle2 } from 'lucide-react';
 import type { Post, Site } from '@/lib/types';
 import { PostCard } from './site-home';
+import { sanitizeArticleHtml } from '@/lib/sanitize';
 
 export function ArticlePage({ site, post, related }: { site: Site; post: Post; related: Post[] }) {
   const toc = Array.from(post.content_html.matchAll(/<h2[^>]*>(.*?)<\/h2>/gi)).map((match) => match[1].replace(/<[^>]+>/g, ''));
@@ -25,7 +26,7 @@ export function ArticlePage({ site, post, related }: { site: Site; post: Post; r
             </div>
           </div>
         </aside>
-        <article className="article-body rounded-lg border border-black/10 bg-white p-5 shadow-sm md:p-8" dangerouslySetInnerHTML={{ __html: post.content_html }} />
+        <article className="article-body rounded-lg border border-black/10 bg-white p-5 shadow-sm md:p-8" dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(post.content_html) }} />
         <aside className="grid content-start gap-4">
           <div className="rounded-lg border border-black/10 bg-white p-5">
             <h3 className="text-xl font-black">Product box</h3>
