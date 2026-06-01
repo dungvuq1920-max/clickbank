@@ -9,6 +9,7 @@ function unauthorized(message = 'Authentication required.') {
 }
 
 export function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname === '/api/subscribers') return NextResponse.next();
   const password = process.env.ADMIN_PASSWORD;
 
   if (!password) {

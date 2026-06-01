@@ -2,7 +2,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { sites } from './sites';
-import type { AffiliateLink, MediaAsset, Post, PostStatus, Product } from './types';
+import type { AffiliateLink, MediaAsset, Post, PostStatus, Product, Subscriber } from './types';
 import { createServiceClient, hasSupabaseEnv } from './supabase/server';
 import { sanitizeArticleHtml } from './sanitize';
 
@@ -11,6 +11,7 @@ type LocalDb = {
   posts: Post[];
   affiliate_links: AffiliateLink[];
   media_assets: MediaAsset[];
+  subscribers: Subscriber[];
 };
 
 const dataDir = path.join(process.cwd(), 'data');
@@ -21,6 +22,7 @@ const emptyDb: LocalDb = {
   posts: [],
   affiliate_links: [],
   media_assets: [],
+  subscribers: [],
 };
 
 async function readLocalDb(): Promise<LocalDb> {
@@ -211,4 +213,21 @@ export async function saveMediaAssets(postId: string, assets: Omit<MediaAsset, '
   db.media_assets.push(...media);
   await writeLocalDb(db);
   return media;
+}
+
+export async function saveSubscriber(input: Pick<Subscriber, 'site_id' | 'email' | 'source' | 'interest'>) {
+  const db = await readLocalDb();
+  const email = input.email.trim().toLowerCase();
+  const existing = db.subscribers.find((item) => item.site_id === input.site_id && item.email === email);
+  if (existing) return existing;
+
+  const subscriber: Subscriber = {
+    ...input,
+    email,
+    id: randomUUID(),
+    created_at: new Date().toISOString(),
+  };
+  db.subscribers.push(subscriber);
+  await writeLocalDb(db);
+  return subscriber;
 }

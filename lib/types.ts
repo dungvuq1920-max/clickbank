@@ -23,6 +23,29 @@ export type Site = {
   compliance: string;
   hero: string;
   leadMagnet: string;
+  tagline: string;
+  heroTitle: string;
+  heroSubtitle: string;
+  primaryCta: string;
+  secondaryCta: string;
+  painTitle: string;
+  painPoints: Array<{ title: string; text: string }>;
+  pillars: Array<{ title: string; text: string }>;
+  productTypes: Array<{ title: string; text: string; label: string }>;
+  categories: string[];
+  quizTitle: string;
+  quizText: string;
+  faqs: Array<{ question: string; answer: string }>;
+  disclaimer: string;
+  created_at: string;
+};
+
+export type Subscriber = {
+  id: string;
+  site_id: string;
+  email: string;
+  source: string;
+  interest: string;
   created_at: string;
 };
 

@@ -7,6 +7,7 @@ import { sanitizeArticleHtml } from '@/lib/sanitize';
 export function ArticlePage({ site, post, related }: { site: Site; post: Post; related: Post[] }) {
   const toc = Array.from(post.content_html.matchAll(/<h2[^>]*>(.*?)<\/h2>/gi)).map((match) => match[1].replace(/<[^>]+>/g, ''));
   const cta = post.cta_blocks?.[0] || { text: site.ctaTexts[0], url: '#', placement: 'sticky' };
+  const productDetails = Object.entries(post.product_box || {}).slice(0, 6);
 
   return (
     <main>
@@ -19,25 +20,28 @@ export function ArticlePage({ site, post, related }: { site: Site; post: Post; r
       </section>
       <section className="mx-auto grid max-w-7xl gap-8 px-5 py-10 lg:grid-cols-[260px_1fr_300px]">
         <aside className="hidden lg:block">
-          <div className="sticky top-24 rounded-lg border border-black/10 bg-white p-4">
+          <div className="sticky top-24 rounded-2xl border border-black/10 bg-white p-4">
             <div className="font-black">Table of contents</div>
             <div className="mt-3 grid gap-2 text-sm text-neutral-600">
               {toc.map((item) => <span key={item}>{item}</span>)}
             </div>
           </div>
         </aside>
-        <article className="article-body rounded-lg border border-black/10 bg-white p-5 shadow-sm md:p-8" dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(post.content_html) }} />
+        <article className="article-body rounded-2xl border border-black/10 bg-white p-5 shadow-sm md:p-8" dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(post.content_html) }} />
         <aside className="grid content-start gap-4">
-          <div className="rounded-lg border border-black/10 bg-white p-5">
-            <h3 className="text-xl font-black">Product box</h3>
-            <pre className="mt-3 whitespace-pre-wrap text-xs text-neutral-600">{JSON.stringify(post.product_box || {}, null, 2)}</pre>
-            <Link className="affiliate-button mt-4 w-full justify-center" href={cta.url}>{cta.text}</Link>
+          <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+            <p className="text-xs font-black uppercase tracking-widest" style={{ color: site.secondary_color }}>Review summary</p>
+            <h3 className="mt-2 text-xl font-black">At a glance</h3>
+            <div className="mt-4 grid gap-3 text-sm">
+              {productDetails.length ? productDetails.map(([label, value]) => <div className="border-b border-black/10 pb-3 last:border-0" key={label}><div className="font-black capitalize">{label.replace(/_/g, ' ')}</div><div className="mt-1 text-neutral-600">{typeof value === 'string' ? value : JSON.stringify(value)}</div></div>) : <p className="text-neutral-600">Review the article and official product page for current details.</p>}
+            </div>
+            <Link className="affiliate-button mt-5 w-full justify-center" href={cta.url}>{cta.text}</Link>
           </div>
-          <div className="rounded-lg border border-black/10 bg-neutral-50 p-5">
+          <div className="rounded-2xl border border-black/10 bg-neutral-50 p-5">
             <h3 className="font-black">Author box</h3>
             <p className="mt-2 text-sm leading-6 text-neutral-600">{site.name} editorial team reviews affiliate offers with compliance and buyer clarity in mind.</p>
           </div>
-          <div className="rounded-lg border border-black/10 bg-white p-5">
+          <div className="rounded-2xl border border-black/10 bg-white p-5">
             <h3 className="font-black">FAQ</h3>
             <div className="mt-3 grid gap-3">
               {(post.faq || []).slice(0, 4).map((item) => (
@@ -50,6 +54,7 @@ export function ArticlePage({ site, post, related }: { site: Site; post: Post; r
           </div>
         </aside>
       </section>
+      <section className="mx-auto max-w-7xl px-5 pb-10"><div className="affiliate-disclosure"><strong>Affiliate disclosure:</strong> This review may contain affiliate links. We may earn a commission at no extra cost to you. {site.disclaimer}</div></section>
       <section className="mx-auto max-w-7xl px-5 pb-16">
         <h2 className="text-3xl font-black">Related articles</h2>
         <div className="mt-5 grid gap-4 md:grid-cols-3">

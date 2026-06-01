@@ -7,19 +7,21 @@ export function SiteShell({ site, children }: { site: Site; children: React.Reac
       <header className="sticky top-0 z-40 border-b border-black/10 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
           <Link href={`/sites/${site.slug}`} className="flex items-center gap-3">
-            <span className="grid size-10 place-items-center rounded-lg text-sm font-black text-white" style={{ background: site.primary_color }}>{site.logo}</span>
-            <span className="font-black">{site.name}</span>
+            <span className="grid size-10 place-items-center rounded-2xl text-sm font-black text-white" style={{ background: site.primary_color }}>{site.logo}</span>
+            <span><strong className="block font-black">{site.name}</strong><small className="hidden text-xs font-bold text-neutral-500 lg:block">{site.tagline}</small></span>
           </Link>
           <nav className="hidden items-center gap-5 text-sm font-extrabold text-neutral-600 md:flex">
             <Link href={`/sites/${site.slug}/blog`}>Blog</Link>
-            <Link href={`/sites/${site.slug}/category/reviews`}>Reviews</Link>
+            <Link href={`/sites/${site.slug}/review`}>Reviews</Link>
+            <Link href={`/sites/${site.slug}/best-products`}>Best Products</Link>
+            <Link href={`/sites/${site.slug}/quiz`}>Quiz</Link>
             <Link href={`/sites/${site.slug}/about`}>About</Link>
             <Link href={`/sites/${site.slug}/contact`}>Contact</Link>
           </nav>
         </div>
       </header>
       {children}
-      <footer className="border-t border-black/10 bg-neutral-950 px-5 py-10 text-white">
+      <footer className="border-t border-black/10 bg-neutral-950 px-5 py-12 text-white">
         <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-[1fr_2fr]">
           <div>
             <div className="text-2xl font-black">{site.name}</div>
@@ -28,8 +30,9 @@ export function SiteShell({ site, children }: { site: Site; children: React.Reac
           <div className="grid gap-3 text-sm font-bold text-white/75 md:grid-cols-3">
             <Link href={`/sites/${site.slug}/privacy-policy`}>Privacy Policy</Link>
             <Link href={`/sites/${site.slug}/terms`}>Terms</Link>
-            <Link href={`/sites/${site.slug}/affiliate-disclosure`}>Affiliate Disclosure</Link>
-            <Link href="/admin/dashboard">Admin</Link>
+             <Link href={`/sites/${site.slug}/affiliate-disclosure`}>Affiliate Disclosure</Link>
+            <Link href={`/sites/${site.slug}/best-products`}>Best Products</Link>
+            <Link href={`/sites/${site.slug}/quiz`}>Free Quiz</Link>
           </div>
         </div>
       </footer>
