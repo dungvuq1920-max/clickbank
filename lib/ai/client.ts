@@ -74,12 +74,28 @@ function normalizeFaq(value: unknown) {
   };
 }
 
-function normalizeArticlePayload(value: unknown) {
+function normalizeCta(value: unknown, index: number, hoplink: string) {
+  const object = (value || {}) as Record<string, unknown>;
+  return {
+    text: stringify(object.text || object.label || object.button_text || object.cta || object.title, 'Visit the official website'),
+    url: hoplink,
+    placement: stringify(object.placement || object.section || object.position, `CTA section ${index + 1}`),
+  };
+}
+
+function normalizeArticlePayload(value: unknown, hoplink: string) {
   const article = value as Record<string, unknown>;
   const images = Array.isArray(article.images) ? article.images : [];
+  const ctaBlocks = Array.isArray(article.cta_blocks) ? article.cta_blocks.map((item, index) => normalizeCta(item, index, hoplink)) : [];
+  const html = stringify(article.content_html);
+  const hoplinkOccurrences = html.split(hoplink).length - 1;
+  for (let index = ctaBlocks.length; index < hoplinkOccurrences; index++) {
+    ctaBlocks.push({ text: 'Visit the official website', url: hoplink, placement: `CTA section ${index + 1}` });
+  }
   const seoPack = (article.seo_pack || {}) as Record<string, unknown>;
   return {
     ...article,
+    cta_blocks: ctaBlocks,
     images: images.map((image, index) => {
       const object = image as Record<string, unknown>;
       return {
@@ -161,7 +177,7 @@ export async function generateArticle(input: GenerateArticleInput): Promise<Gene
 
   const content = payload.choices?.[0]?.message?.content;
   if (!content) throw new Error('AI returned an empty response.');
-  const article = generatedArticleSchema.parse(normalizeArticlePayload(parseJson(content)));
+  const article = generatedArticleSchema.parse(normalizeArticlePayload(parseJson(content), input.affiliate_url));
   assertArticleQuality(article, input);
   return article;
 }
